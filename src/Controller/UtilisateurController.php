@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -24,9 +25,9 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/profil/{code}', 'detailProfil', methods: ['GET'])]
-    public function hello2($code, ProfilRepository $profilRepository): Response
+    public function afficherProfil(string $code): Response
     {
-        $profil = $profilRepository->findOneBy(['codeUnique' => $code]);
-        return $this->render("", ["profil" => $profil]);
+        $user = $this->utilisateurRepo->findOneBy(['codeUnique' => $code]);
+        return $this->render("utilisateur/profil.html.twig", ["user" => $user]);
     }
 }
