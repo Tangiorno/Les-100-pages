@@ -14,26 +14,20 @@ class Utilisateur
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $login = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $password = null;
-
-    #[ORM\Column]
-    private ?bool $visible = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $codeUnique = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $dateEdition = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateConnexion = null;
+
+    #[ORM\Column]
+    private ?bool $visible = null;
 
     public function getId(): ?int
     {
@@ -76,42 +70,6 @@ class Utilisateur
         return $this;
     }
 
-    public function isVisible(): ?bool
-    {
-        return $this->visible;
-    }
-
-    public function setVisible(bool $visible): static
-    {
-        $this->visible = $visible;
-
-        return $this;
-    }
-
-    public function getCodeUnique(): ?string
-    {
-        return $this->codeUnique;
-    }
-
-    public function setCodeUnique(string $codeUnique): static
-    {
-        $this->codeUnique = $codeUnique;
-
-        return $this;
-    }
-
-    public function getDateEdition(): ?\DateTimeInterface
-    {
-        return $this->dateEdition;
-    }
-
-    public function setDateEdition(\DateTimeInterface $dateEdition): static
-    {
-        $this->dateEdition = $dateEdition;
-
-        return $this;
-    }
-
     public function getDateConnexion(): ?\DateTimeInterface
     {
         return $this->dateConnexion;
@@ -120,6 +78,18 @@ class Utilisateur
     public function setDateConnexion(\DateTimeInterface $dateConnexion): static
     {
         $this->dateConnexion = $dateConnexion;
+
+        return $this;
+    }
+
+    public function isVisible(): ?bool
+    {
+        return $this->visible;
+    }
+
+    public function setVisible(bool $visible): static
+    {
+        $this->visible = $visible;
 
         return $this;
     }
