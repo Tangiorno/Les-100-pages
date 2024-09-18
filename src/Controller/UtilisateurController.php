@@ -19,7 +19,7 @@ class UtilisateurController extends AbstractController
     public function creation(Request $request, EntityManagerInterface $manager, UtilisateurManagerInterface $utilisateurManager) : Response
     {
         if($this->isGranted('ROLE_USER')) {
-            return $this->redirectToRoute('accueil');
+            return $this->redirectToRoute('liste');
         }
 
         $utilisateur = new Utilisateur();
@@ -31,7 +31,7 @@ class UtilisateurController extends AbstractController
             $manager->persist($utilisateur);
             $manager->flush();
             $this->addFlash('success', 'Profil créé avec succès');
-            return $this->redirectToRoute('accueil');
+            return $this->redirectToRoute('liste');
         }
 
         $this->flashMessageHelper->addFormErrorsAsFlash($form);
