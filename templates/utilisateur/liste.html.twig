@@ -4,12 +4,11 @@
 
 {% block page_content %}
 
-    <h1>Annuaire</h1>
+    <h2>Annuaire</h2>
     <ul>
-        <li>jean</li>
-        <li>oussama</li>
-        <li>gérard</li>
-        <li>xavier</li>
+        {% for profil in utilisateurs %}
+            <li>{{ profil.login }}</li>
+        {% endfor %}
     </ul>
 
 {% endblock %}
