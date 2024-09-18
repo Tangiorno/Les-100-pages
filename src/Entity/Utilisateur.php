@@ -16,25 +16,28 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $login = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $password = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $dateConnexion = null;
 
     #[ORM\Column]
     private ?bool $visible = null;
 
     #[ORM\Column(length: 255)]
     private ?string $codeUnique = null;
+
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateEdition = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $dateConnexion = null;
+
     /**
      * @var list<string> The user roles
      */
@@ -82,6 +85,18 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getDateConnexion(): ?\DateTimeInterface
+    {
+        return $this->dateConnexion;
+    }
+
+    public function setDateConnexion(\DateTimeInterface $dateConnexion): static
+    {
+        $this->dateConnexion = $dateConnexion;
+
+        return $this;
+    }
+
     public function isVisible(): ?bool
     {
         return $this->visible;
@@ -118,17 +133,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getDateConnexion(): ?\DateTimeInterface
-    {
-        return $this->dateConnexion;
-    }
-
-    public function setDateConnexion(\DateTimeInterface $dateConnexion): static
-    {
-        $this->dateConnexion = $dateConnexion;
-
-        return $this;
-    }
     public function getRoles(): array
     {
         $roles = $this->roles;

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PLACEHOLDER TITLE{% endblock %}
+
+{% block page_content %}
+
+    <h2>Annuaire</h2>
+    <ul>
+        {% for profil in utilisateurs %}
+            <li>{{ profil.login }}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

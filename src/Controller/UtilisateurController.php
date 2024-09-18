@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
+use App\Repository\UtilisateurRepository;
 use App\Service\UtilisateurManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +15,8 @@ use App\Service\FlashMessageHelperInterface;
 
 class UtilisateurController extends AbstractController
 {
-    public function __construct(private FlashMessageHelperInterface $flashMessageHelper){}
+    public function __construct(private FlashMessageHelperInterface $flashMessageHelper,
+                                private readonly UtilisateurRepository $utilisateurRepo){}
     #[Route('/creation', name: 'creation', methods: ['GET', 'POST'])]
     public function creation(Request $request, EntityManagerInterface $manager, UtilisateurManagerInterface $utilisateurManager) : Response
     {
@@ -37,5 +39,13 @@ class UtilisateurController extends AbstractController
         $this->flashMessageHelper->addFormErrorsAsFlash($form);
 
         return $this->render('utilisateur/inscription.html.twig', ["formUser"=>$form]);
+    }
+    #[Route('/', name: 'liste')]
+    public function liste(): Response
+    {
+        $utilisateurs = $this->utilisateurRepo->findBy(['visible' => true]);
+        return $this->render('utilisateur/liste.html.twig', [
+            'utilisateurs' => $utilisateurs,
+        ]);
     }
 }
