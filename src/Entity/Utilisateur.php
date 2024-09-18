@@ -27,7 +27,22 @@ class Utilisateur
     private ?\DateTimeInterface $dateConnexion = null;
 
     #[ORM\Column]
+    private ?bool $profil = null;
+
+    #[ORM\Column]
     private ?bool $visible = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $dateEdition = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $codeUnique = null;
+
+    #[ORM\Column(length: 20)]
+    private ?string $numeroTelephone = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $pays = null;
 
     public function getId(): ?int
     {
@@ -93,4 +108,53 @@ class Utilisateur
 
         return $this;
     }
+
+    public function getDateEdition(): ?\DateTimeInterface
+    {
+        return $this->dateEdition;
+    }
+
+    public function setDateEdition(\DateTimeInterface $dateEdition): static
+    {
+        $this->dateEdition = $dateEdition;
+
+        return $this;
+    }
+
+    public function getCodeUnique(): ?string
+    {
+        return $this->codeUnique;
+    }
+
+    public function setCodeUnique(string $codeUnique): static
+    {
+        $this->codeUnique = $codeUnique;
+
+        return $this;
+    }
+
+    public function getNumeroTelephone(): ?string
+    {
+        return $this->numeroTelephone;
+    }
+
+    public function setNumeroTelephone(string $numeroTelephone): static
+    {
+        $this->numeroTelephone = $numeroTelephone;
+
+        return $this;
+    }
+
+    public function getPays(): ?string
+    {
+        return $this->pays;
+    }
+
+    public function setPays(string $pays): static
+    {
+        $this->pays = $pays;
+
+        return $this;
+    }
+
 }
