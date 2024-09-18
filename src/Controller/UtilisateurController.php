@@ -18,7 +18,7 @@ class UtilisateurController extends AbstractController
     #[Route('/', name: 'liste')]
     public function liste(): Response
     {
-        $utilisateurs = $this->utilisateurRepo->findAll();
+        $utilisateurs = $this->utilisateurRepo->findBy(['visible' => true]);
         return $this->render('utilisateur/liste.html.twig', [
             'utilisateurs' => $utilisateurs,
         ]);
