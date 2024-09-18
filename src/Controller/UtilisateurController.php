@@ -15,12 +15,18 @@ class UtilisateurController extends AbstractController
     {
     }
 
-    #[Route('/', name: 'liste')]
+    #[Route('/', name: 'liste', methods: ['GET'])]
     public function liste(): Response
     {
         $utilisateurs = $this->utilisateurRepo->findBy(['visible' => true]);
         return $this->render('utilisateur/liste.html.twig', [
             'utilisateurs' => $utilisateurs,
         ]);
+    }
+
+    #[Route('/profil/{code}', name: 'profil', methods: ['GET'])]
+    public function profil(string $code): Response
+    {
+        print_r("hi $code !"); die();
     }
 }

@@ -7,7 +7,7 @@
     <h2>Annuaire</h2>
     <ul>
         {% for profil in utilisateurs %}
-            <li>{{ profil.login }}</li>
+            <li><a href="{{ path('profil', { 'code': profil.codeUnique }) }}">{{ profil.login }}</a></li>
         {% endfor %}
     </ul>
 
