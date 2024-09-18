@@ -12,11 +12,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Service\FlashMessageHelperInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UtilisateurController extends AbstractController
 {
     public function __construct(private FlashMessageHelperInterface $flashMessageHelper,
                                 private readonly UtilisateurRepository $utilisateurRepo){}
+
+
+    #[Route('/', name: 'liste')]
+    public function liste(): Response
+    {
+        $utilisateurs = $this->utilisateurRepo->findBy(['visible' => true]);
+        return $this->render('utilisateur/liste.html.twig', [
+            'utilisateurs' => $utilisateurs,
+        ]);
+    }
+
     #[Route('/creation', name: 'creation', methods: ['GET', 'POST'])]
     public function creation(Request $request, EntityManagerInterface $manager, UtilisateurManagerInterface $utilisateurManager) : Response
     {
@@ -38,14 +50,17 @@ class UtilisateurController extends AbstractController
 
         $this->flashMessageHelper->addFormErrorsAsFlash($form);
 
-        return $this->render('utilisateur/inscription.html.twig', ["formUser"=>$form]);
+        return $this->render('utilisateur/creation.html.twig', ["formUser"=>$form]);
     }
-    #[Route('/', name: 'liste')]
-    public function liste(): Response
+
+    #[Route('/connexion', name: 'connexion', methods: ['GET', 'POST'])]
+    public function connexion(AuthenticationUtils $authenticationUtils) : Response
     {
-        $utilisateurs = $this->utilisateurRepo->findBy(['visible' => true]);
-        return $this->render('utilisateur/liste.html.twig', [
-            'utilisateurs' => $utilisateurs,
-        ]);
+        if($this->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('liste');
+        }
+
+        $lastUsername = $authenticationUtils->getLastUsername();
+        return $this->render('utilisateur/connexion.html.twig', ["lastUsername" => $lastUsername]);
     }
 }
