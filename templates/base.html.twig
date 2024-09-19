@@ -8,16 +8,15 @@
 <body>
 <header>
     <div id="titre" class="center">
-        <a href="{{ path("liste") }}"><span>Annuaire</span></a>
         <nav>
             <a href="{{ path("liste") }}">Accueil</a>
-            {% if not is_granted("ROLE_USER") %}
-                <a href="{{ path("creation") }}">Créer son profil</a>
-                <a href="{{ path("connexion") }}">Se connecter</a>
-            {% else %}
+            {% if is_granted("ROLE_USER") %}
                 <form method="post" action="{{ path("_logout_main") }}">
                     <button id="btn-deconnexion">Se déconnecter</button>
                 </form>
+            {% else %}
+                <a href="{{ path("creation") }}">Créer son profil</a>
+                <a href="{{ path("connexion") }}">Se connecter</a>
             {% endif %}
         </nav>
     </div>
