@@ -29,20 +29,28 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeInterface $dateConnexion = null;
 
     #[ORM\Column]
-    private ?bool $visible = null;
+    private ?bool $profil = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $codeUnique = null;
+    #[ORM\Column]
+    private ?bool $visible = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateEdition = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $codeUnique = null;
+
+    #[ORM\Column(length: 20)]
+    private ?string $numeroTelephone = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $pays = null;
 
     /**
      * @var list<string> The user roles
      */
-    #[ORM\Column]
-    private array $roles = [];
+   // #[ORM\Column]
+    //private array $roles = [];
 
     public function getId(): ?int
     {
@@ -109,6 +117,18 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getDateEdition(): ?\DateTimeInterface
+    {
+        return $this->dateEdition;
+    }
+
+    public function setDateEdition(\DateTimeInterface $dateEdition): static
+    {
+        $this->dateEdition = $dateEdition;
+
+        return $this;
+    }
+
     public function getCodeUnique(): ?string
     {
         return $this->codeUnique;
@@ -121,14 +141,26 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getDateEdition(): ?\DateTimeInterface
+    public function getNumeroTelephone(): ?string
     {
-        return $this->dateEdition;
+        return $this->numeroTelephone;
     }
 
-    public function setDateEdition(\DateTimeInterface $dateEdition): static
+    public function setNumeroTelephone(string $numeroTelephone): static
     {
-        $this->dateEdition = $dateEdition;
+        $this->numeroTelephone = $numeroTelephone;
+        return $this;
+    }
+
+
+    public function getPays(): ?string
+    {
+        return $this->pays;
+    }
+
+    public function setPays(string $pays): static
+    {
+        $this->pays = $pays;
 
         return $this;
     }

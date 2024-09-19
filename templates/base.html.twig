@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>{% block title %} {% endblock %}</title>
+    <title>Annuaire - {% block title_suffix %}{% endblock %}</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="{{ asset("css/styles.css") }}">
 </head>
@@ -30,7 +30,10 @@
         <span class="flashes flashes-error">{{ error }}</span>
     {% endfor %}
 </div>
-{% block content %}
+{% block page_content %}
 {% endblock %}
+<footer>
+    FOOTER
+</footer>
 </body>
 </html>
