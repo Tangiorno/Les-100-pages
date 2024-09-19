@@ -3,23 +3,34 @@
 <head>
     <title>Annuaire - {% block title_suffix %}{% endblock %}</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="{{ asset("css/app.css") }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset("css/styles.css") }}">
 </head>
 <body>
 <header>
-    <h3>HEADER</h3>
+    <div id="titre" class="center">
+        <a href="{{ path("liste") }}"><span>Annuaire</span></a>
+        <nav>
+            <a href="{{ path("liste") }}">Accueil</a>
+            {% if not is_granted("ROLE_USER") %}
+                <a href="{{ path("creation") }}">Créer son profil</a>
+                <a href="{{ path("connexion") }}">Se connecter</a>
+            {% else %}
+                <form method="post" action="{{ path("_logout_main") }}">
+                    <button id="btn-deconnexion">Se déconnecter</button>
+                </form>
+            {% endif %}
+        </nav>
+    </div>
 </header>
 <div id="flashes-container">
-    {% for flash in app.flashes('success') %}
-        <span class="flashes flashes-success">{{ flash }}</span>
+    {% for success in app.flashes("success") %}
+        <span class="flashes flashes-success">{{ success }}</span>
     {% endfor %}
-    {% for flash in app.flashes('error') %}
-        <span class="flashes flashes-error">{{ flash }}</span>
+    {% for error in app.flashes("error") %}
+        <span class="flashes flashes-error">{{ error }}</span>
     {% endfor %}
 </div>
-{% block page_content %}{% endblock %}
+{% block content %}
+{% endblock %}
 </body>
-<footer>
-    <h3>FOOTER</h3>
-</footer>
 </html>
