@@ -8,9 +8,13 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class UtilisateurType extends AbstractType
 {
@@ -19,15 +23,17 @@ class UtilisateurType extends AbstractType
         $builder
             ->add('login', TextType::class)
             ->add('email', EmailType::class)
-            ->add('password', PasswordType::class)
-            ->add('visible', CheckboxType::class)
-            ->add('dateEdition', null, [
+            ->add('plainPassword', PasswordType::class, ["mapped" => false, "constraints"=>
+                [new NotBlank(), new NotNull(), new Regex("#^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,30}$#", "Le mot de passe doit contenir au minimum une majuscule, une minuscule et un chiffre")]])
+            ->add('visible', CheckboxType::class, ['required' => false])
+            /*->add('dateEdition', null, [
                 'widget' => 'single_text',
             ])
             ->add('dateConnexion', null, [
                 'widget' => 'single_text',
             ])
-            ->add('roles')
+            ->add('roles')*/
+            ->add('creation', SubmitType::class)
         ;
     }
 
