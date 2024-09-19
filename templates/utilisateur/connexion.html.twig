@@ -1,19 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title_suffix %}Connexion   {% endblock %}
+{% block title_suffix %}Connexion{% endblock %}
 
 {% block page_content %}
-
     <main>
         <form action="{{ path("connexion") }}" method="post" class="basic-form center">
             <fieldset>
                 <legend>Connexion</legend>
                 <div class="access-container">
-                    <label for="login">Login</label>
+                    <label for="login">E-mail ou code unique : </label>
                     <input id="login" type="text" name="_username" value="{{ lastUsername }}" required/>
                 </div>
                 <div class="access-container">
-                    <label for="password">Mot de passe</label>
+                    <label for="password">Mot de passe : </label>
                     <input id="password" type="password" name="_password" required/>
                 </div>
                 <button type="submit" class="basic-form-submit">Se connecter</button>
@@ -21,5 +20,4 @@
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
         </form>
     </main>
-
 {% endblock %}

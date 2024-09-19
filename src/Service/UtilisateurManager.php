@@ -11,7 +11,7 @@ class UtilisateurManager implements UtilisateurManagerInterface
 {
 
     public function __construct(
-        private UserPasswordHasherInterface $userPasswordHasher,
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
     ){}
 
     /**
