@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Regex;
@@ -24,7 +25,9 @@ class UtilisateurType extends AbstractType
             ->add('login', TextType::class)
             ->add('email', EmailType::class)
             ->add('plainPassword', PasswordType::class, ["mapped" => false, "constraints"=>
-                [new NotBlank(), new NotNull(), new Regex("#^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,30}$#", "Le mot de passe doit contenir au minimum une majuscule, une minuscule et un chiffre")]])
+                [new NotBlank(), new NotNull(),
+                    new Length(["min" => 8, "max" => 50, "minMessage"=> "Le mot de passe doit posséder au minimum 8 caractères", "maxMessage"=>"Le mot de passe doit posséder au maximum 50 caractères"]),
+                    new Regex("#^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,30}$#", "Le mot de passe doit contenir au minimum une majuscule, une minuscule et un chiffre")]])
             ->add('visible', CheckboxType::class, ['required' => false])
             /*->add('dateEdition', null, [
                 'widget' => 'single_text',
