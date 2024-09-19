@@ -50,7 +50,7 @@ class UtilisateurController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $utilisateurManager->processNewUtilisateur($utilisateur, $form['plainPassword']->getData());
+            $utilisateurManager->processNewUtilisateur($utilisateur, $form['plainPassword']->getData(), $form['visible']->getData());
             $manager->persist($utilisateur);
             $manager->flush();
             $this->addFlash('success', 'Profil créé avec succès');
