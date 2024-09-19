@@ -7,6 +7,7 @@ use App\Form\UtilisateurType;
 use App\Repository\UtilisateurRepository;
 use App\Service\UtilisateurManager;
 use App\Service\UtilisateurManagerInterface;
+use App\U;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,8 +37,12 @@ class UtilisateurController extends AbstractController
     #[Route('/profil/{code}', 'detailProfil', methods: ['GET'])]
     public function afficherProfil(string $code): Response
     {
+        $currentConnectedUser = $this->getUser();
         $user = $this->utilisateurRepo->findOneBy(['codeUnique' => $code]);
-        return $this->render("utilisateur/profil.html.twig", ["user" => $user]);
+
+        $isSelfProfile = $currentConnectedUser && $currentConnectedUser->getUserIdentifier() == $user->getCodeUnique();
+        
+        return $this->render("utilisateur/profil.html.twig", ["user" => $user, "isSelfProfile" => $isSelfProfile]);
     }
 
     #[Route('/creation', name: 'creation', methods: ['GET', 'POST'])]

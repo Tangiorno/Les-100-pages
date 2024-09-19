@@ -203,6 +203,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string)$this->login;
+        return (string)$this->codeUnique;
     }
 }

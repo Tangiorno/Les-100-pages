@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title_suffix %}Profil de {{ user.login }}{% endblock %}
+{% block title_suffix %}
+    {% if isSelfProfile %}
+        Mon profil
+    {% else %}
+        Profil de {{ user.login }}
+    {% endif %}
+{% endblock %}
 
 {% block page_content %}
 
