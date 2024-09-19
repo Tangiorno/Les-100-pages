@@ -3,11 +3,17 @@
 <head>
     <title>Annuaire - {% block title_suffix %}{% endblock %}</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="{{ asset("css/styles.css") }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset("styles/app.css") }}">
 </head>
-<body>
+<body bgcolor="herbizrre">
+<!--
+testez les couleurs je recommande. au dessus c'est herbizrre et pas herbizarre parce que avec le a ça faisait du rose
+<body bgcolor="squirtle">
+<body bgcolor="chucknorris">
+<body bgcolor="crap">
+-->
 <header>
-    <div id="titre" class="center">
+    <div class="center">
         <nav>
             <a href="{{ path("liste") }}">Accueil</a>
             {% if is_granted("ROLE_USER") %}
