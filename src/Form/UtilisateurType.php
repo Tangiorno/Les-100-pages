@@ -25,11 +25,11 @@ class UtilisateurType extends AbstractType
         $builder
             ->add('login', TextType::class)
             ->add('email', EmailType::class)
-            ->add('plainPassword', PasswordType::class, ["mapped" => false, "constraints"=>
+            ->add('plainPassword', PasswordType::class, ["mapped" => false, "constraints" =>
                 [new NotBlank(), new NotNull(),
-                    new Length(["min" => 8, "max" => 50, "minMessage"=> "Le mot de passe doit posséder au minimum 8 caractères", "maxMessage"=>"Le mot de passe doit posséder au maximum 50 caractères"]),
+                    new Length(["min" => 8, "max" => 50, "minMessage" => "Le mot de passe doit posséder au minimum 8 caractères", "maxMessage" => "Le mot de passe doit posséder au maximum 50 caractères"]),
                     new Regex("#^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,30}$#", "Le mot de passe doit contenir au minimum une majuscule, une minuscule et un chiffre")]])
-            ->add('visible', CheckboxType::class, ['required' => false])
+            ->add('visible', CheckboxType::class, ['required' => false, 'data' => true])
             ->add('codeUnique', TextType::class, ["required" => false])
             ->add('numeroTelephone', TextType::class)
             ->add('pays', TextType::class)
@@ -40,8 +40,7 @@ class UtilisateurType extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('roles')*/
-            ->add('creation', SubmitType::class)
-        ;
+            ->add('creation', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
