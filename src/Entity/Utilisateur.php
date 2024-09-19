@@ -49,8 +49,8 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var list<string> The user roles
      */
-    #[ORM\Column]
-    private array $roles = [];
+   // #[ORM\Column]
+    //private array $roles = [];
 
     public function getId(): ?int
     {

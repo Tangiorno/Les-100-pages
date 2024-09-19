@@ -2,12 +2,12 @@
 
 {% block title_suffix %}Liste{% endblock %}
 
-{% block page_content %}
+    {% block page_content %}
 
     <h2>Annuaire</h2>
     <ul>
         {% for profil in utilisateurs %}
-            <li><a href="{{ path('profil', { 'code': profil.codeUnique }) }}">{{ profil.login }}</a></li>
+            <li><a href="{{ path('detailProfil', { 'code': profil.codeUnique }) }}">{{ profil.login }}</a></li>
         {% endfor %}
     </ul>
 

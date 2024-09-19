@@ -31,11 +31,11 @@ class UtilisateurController extends AbstractController
         ]);
     }
 
-    #[Route('/profil/{code}', name: 'profil', methods: ['GET'])]
-    public function profil(string $code): Response
+    #[Route('/profil/{code}', 'detailProfil', methods: ['GET'])]
+    public function afficherProfil(string $code): Response
     {
-        print_r("hi $code !");
-        die();
+        $user = $this->utilisateurRepo->findOneBy(['codeUnique' => $code]);
+        return $this->render("utilisateur/profil.html.twig", ["user" => $user]);
     }
 
     #[Route('/creation', name: 'creation', methods: ['GET', 'POST'])]
