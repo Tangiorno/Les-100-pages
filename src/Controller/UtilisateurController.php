@@ -16,8 +16,10 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UtilisateurController extends AbstractController
 {
-    public function __construct(private FlashMessageHelperInterface $flashMessageHelper,
-                                private readonly UtilisateurRepository $utilisateurRepo){}
+    public function __construct(private readonly FlashMessageHelperInterface $flashMessageHelper,
+                                private readonly UtilisateurRepository       $utilisateurRepo)
+    {
+    }
 
 
     #[Route('/', name: 'liste', methods: ['GET'])]
@@ -37,14 +39,14 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/creation', name: 'creation', methods: ['GET', 'POST'])]
-    public function creation(Request $request, EntityManagerInterface $manager, UtilisateurManagerInterface $utilisateurManager) : Response
+    public function creation(Request $request, EntityManagerInterface $manager, UtilisateurManagerInterface $utilisateurManager): Response
     {
-        if($this->isGranted('ROLE_USER')) {
+        if ($this->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('liste');
         }
 
         $utilisateur = new Utilisateur();
-        $form = $this->createForm(UtilisateurType::class, $utilisateur, ["method" => "POST", "action"=> $this->generateUrl("creation")]);
+        $form = $this->createForm(UtilisateurType::class, $utilisateur, ["method" => "POST", "action" => $this->generateUrl("creation")]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -58,13 +60,13 @@ class UtilisateurController extends AbstractController
         $this->flashMessageHelper->addFormErrorsAsFlash($form);
 
 
-        return $this->render('utilisateur/creation.html.twig', ["formUser"=>$form]);
+        return $this->render('utilisateur/creation.html.twig', ["formUser" => $form]);
     }
 
     #[Route('/connexion', name: 'connexion', methods: ['GET', 'POST'])]
-    public function connexion(AuthenticationUtils $authenticationUtils) : Response
+    public function connexion(AuthenticationUtils $authenticationUtils): Response
     {
-        if($this->isGranted('ROLE_USER')) {
+        if ($this->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('liste');
         }
 
