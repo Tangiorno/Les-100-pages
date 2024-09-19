@@ -41,7 +41,7 @@ class UtilisateurController extends AbstractController
         $user = $this->utilisateurRepo->findOneBy(['codeUnique' => $code]);
 
         $isSelfProfile = $currentConnectedUser && $currentConnectedUser->getUserIdentifier() == $user->getCodeUnique();
-        
+
         return $this->render("utilisateur/profil.html.twig", ["user" => $user, "isSelfProfile" => $isSelfProfile]);
     }
 
@@ -68,6 +68,39 @@ class UtilisateurController extends AbstractController
 
 
         return $this->render('utilisateur/creation.html.twig', ["formUser" => $form]);
+    }
+
+    #[Route('/edition', name: 'edition', methods: ['GET', 'POST'])]
+    public function modifier(Request $request, EntityManagerInterface $manager, UtilisateurManagerInterface $utilisateurManager): Response
+    {
+        if (!$this->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('liste');
+        }
+
+        $user = $this->getUser();
+
+        U::pd("user à modifier :", $user);
+
+        // !!!!!!!!!!! Ce code commenté c'est pour une template de modification, mais là c'est juste celui de création.
+        // !!!!!!!!!!! Si la route c'est pas un truc genre /edition/{code} c'est parce qu'on peut seulement modifier
+        // !!!!!!!!!!! son propre profil donc autant juste modifier getUser().
+
+/*        $form = $this->createForm(UtilisateurType::class, $utilisateur, ["method" => "POST", "action" => $this->generateUrl("creation")]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $utilisateurManager->processNewUtilisateur($utilisateur, $form['plainPassword']->getData(), $form['visible']->getData());
+            $manager->persist($utilisateur);
+            $manager->flush();
+            $this->addFlash('success', 'Profil créé avec succès');
+            return $this->redirectToRoute('liste');
+        }
+
+        $this->flashMessageHelper->addFormErrorsAsFlash($form);
+
+
+        return $this->render('utilisateur/creation.html.twig', ["formUser" => $form]);
+*/
     }
 
     #[Route('/connexion', name: 'connexion', methods: ['GET', 'POST'])]

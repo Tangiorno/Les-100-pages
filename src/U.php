@@ -6,21 +6,24 @@ use JetBrains\PhpStorm\NoReturn;
 
 class U
 {
-    public static function p($var): void
+    public static function p(): void
     {
-        if ($var === true or $var === false) {
-            echo $var ? 'true' : 'false';
-            return;
+        foreach (func_get_args() as $var) {
+            if ($var === true or $var === false) {
+                echo $var ? 'true' : 'false';
+                return;
+            }
+            echo "<pre>";
+            print_r($var);
+            echo "</pre>";
         }
-
-        echo "<pre>";
-        print_r($var);
-        echo "</pre>";
     }
 
-    #[NoReturn] public static function pd($var): void
+    #[NoReturn] public static function pd(): void
     {
-        self::p($var);
+        foreach (func_get_args() as $var) {
+            self::p($var);
+        }
         die();
     }
 }
