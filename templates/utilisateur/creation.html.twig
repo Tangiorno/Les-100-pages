@@ -26,6 +26,18 @@
                 {{ form_label(formUser.visible, 'Cochez si vous souhaitez que votre profil soit masqué') }}
                 {{ form_widget(formUser.visible, {'id': 'visible'}) }}
             </div>
+            <div class="access-container">
+                {{ form_label(formUser.codeUnique, 'Rentrez un code unique qui vous servira à vous identifier, ou laissez le champ vide pour le générer aléatoirement') }}
+                {{ form_widget(formUser.codeUnique, {'id': 'codeUnique'}) }}
+            </div>
+            <div class="access-container">
+                {{ form_label(formUser.numeroTelephone, 'Entrez votre numéro de téléphone') }}
+                {{ form_widget(formUser.numeroTelephone, {'id': 'numeroTelephone'}) }}
+            </div>
+            <div class="access-container">
+                {{ form_label(formUser.pays, 'Entrez votre pays de résidence') }}
+                {{ form_widget(formUser.pays, {'id': 'pays'}) }}
+            </div>
             {{ form_widget(formUser.creation, {'label': "Créer votre profil !", 'attr': {'class': 'basic-form-submit'}}) }}
         </fieldset>
         {{ form_rest(formUser) }}
