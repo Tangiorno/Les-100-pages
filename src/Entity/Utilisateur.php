@@ -71,7 +71,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->login;
     }
 
-    public function setLogin(string $login): static
+    public function setLogin(?string $login): static
     {
         $this->login = $login;
 
@@ -83,7 +83,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(?string $email): static
     {
         $this->email = $email;
 
@@ -95,7 +95,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(?string $password): static
     {
         $this->password = $password;
 
@@ -119,7 +119,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->visible;
     }
 
-    public function setVisible(bool $visible): static
+    public function setVisible(?bool $visible): static
     {
         $this->visible = $visible;
 
@@ -143,7 +143,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->codeUnique;
     }
 
-    public function setCodeUnique(string $codeUnique): static
+    public function setCodeUnique(?string $codeUnique): static
     {
         $this->codeUnique = $codeUnique;
 
@@ -155,7 +155,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->numeroTelephone;
     }
 
-    public function setNumeroTelephone(string $numeroTelephone): static
+    public function setNumeroTelephone(?string $numeroTelephone): static
     {
         $this->numeroTelephone = $numeroTelephone;
         return $this;
@@ -167,7 +167,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->pays;
     }
 
-    public function setPays(string $pays): static
+    public function setPays(?string $pays): static
     {
         $this->pays = $pays;
 
@@ -217,7 +217,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->prenom;
     }
 
-    public function setPrenom(string $prenom): static
+    public function setPrenom(?string $prenom): static
     {
         $this->prenom = $prenom;
 
@@ -229,7 +229,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->nom;
     }
 
-    public function setNom(string $nom): static
+    public function setNom(?string $nom): static
     {
         $this->nom = $nom;
 

@@ -95,8 +95,8 @@ class UtilisateurController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $utilisateurManager->processModifUtilisateur($user, $form['plainPassword']->getData());
-            $manager->persist($user);
+            $manager->getRepository(Utilisateur::class)->find($user->getId());
+            $utilisateurManager->processModifUtilisateur($user, $form['password']->getData());
             $manager->flush();
             $this->addFlash('success', 'Profil modifié avec succès');
             return $this->redirectToRoute('liste');
@@ -105,7 +105,7 @@ class UtilisateurController extends AbstractController
         $this->flashMessageHelper->addFormErrorsAsFlash($form);
 
 
-        return $this->render('utilisateur/edition.html.twig', ["formUser" => $form]);
+        return $this->render('utilisateur/edition.html.twig', ["formUser" => $form, 'user' => $user]);
 
     }
 

@@ -45,7 +45,9 @@ class UtilisateurManager implements UtilisateurManagerInterface
 
     public function processModifUtilisateur(UserInterface $utilisateur, ?string $plainPassword): void
     {
-        $this->chiffrerMotDePasse($utilisateur, $plainPassword);
+        if($plainPassword !== null) {
+            $this->chiffrerMotDePasse($utilisateur, $plainPassword);
+        }
         $utilisateur->setDateEdition(new DateTime());
         $utilisateur->setDateConnexion(new DateTime());
     }
