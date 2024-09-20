@@ -4,6 +4,52 @@
 
 {% block page_content %}
 
-
+    <main>
+        {{ form_start(formUser, {'attr': {'class': 'center basic-form'}}) }}
+        <fieldset>
+            <legend>Édition</legend>
+            <div class="access-container">
+                {{ form_label(formUser.login, 'Modifiez votre login') }}
+                <p class="help-input-form">Maximum 50 caractères</p>
+                {{ form_widget(formUser.login, {'id': 'login', 'required': false, 'attr': {'value': user.login }}) }}
+            </div>
+            <div class="access-container">
+                {{ form_label(formUser.prenom, 'Modifiez votre prénom') }}
+                {{ form_widget(formUser.prenom, {'id': 'prenom', 'required': false, 'attr': {'value': user.prenom }}) }}
+            </div>
+            <div class="access-container">
+                {{ form_label(formUser.nom, 'Modifiez votre nom') }}
+                {{ form_widget(formUser.nom, {'id': 'nom', 'required': false, 'attr': {'value':  user.nom  }}) }}
+            </div>
+            <div class="access-container">
+                {{ form_label(formUser.email, 'Modifiez votre adresse email') }}
+                {{ form_widget(formUser.email, {'id': 'email', 'required': false, 'attr': {'value':  user.email  }}) }}
+            </div>
+            <div class="access-container">
+                {{ form_label(formUser.codeUnique, 'Modifiez votre code unique') }}
+                {{ form_widget(formUser.codeUnique, {'id': 'codeUnique', 'required': false, 'attr': {'value':  user.codeUnique  }}) }}
+            </div>
+            <div class="access-container">
+                {{ form_label(formUser.password, 'Modifiez votre mot de passe') }}
+                <p class="help-input-form">Entre 8 et 50 caractères, au moins une minuscule, une majuscule et un chiffre</p>
+                {{ form_widget(formUser.password, {'id': 'password', 'required': false, 'attr': {'placeholder':  'Entrez votre nouveau mot de passe (facultatif)' }}) }}
+            </div>
+            <div class="access-container">
+                {{ form_label(formUser.visible, 'Modifiez la visibilité de votre profil') }}
+                {{ form_widget(formUser.visible, {'id': 'visible', 'required': false, 'attr': {'value':  user.visible  }}) }}
+            </div>
+            <div class="access-container">
+                {{ form_label(formUser.numeroTelephone, 'Modifiez votre numéro de téléphone') }}
+                {{ form_widget(formUser.numeroTelephone, {'id': 'numeroTelephone', 'required': false, 'attr': {'value':  user.numeroTelephone  }}) }}
+            </div>
+            <div class="access-container">
+                {{ form_label(formUser.pays, 'Modifiez votre pays de résidence') }}
+                {{ form_widget(formUser.pays, {'id': 'pays', 'required': false, 'attr': {'value':  user.pays  }}) }}
+            </div>
+            {{ form_widget(formUser.edition, {'label': "Modifier votre profil !", 'attr': {'class': 'basic-form-submit'}}) }}
+        </fieldset>
+        {{ form_rest(formUser) }}
+        {{ form_end(formUser) }}
+    </main>
 
 {% endblock %}
