@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 use App\Service\FlashMessageHelperInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
@@ -149,5 +150,16 @@ class UtilisateurController extends AbstractController
 
         $lastUsername = $authenticationUtils->getLastUsername();
         return $this->render('utilisateur/connexion.html.twig', ["lastUsername" => $lastUsername]);
+    }
+
+    #[Route('/profil/{code}/json', 'detailProfiltJson', methods: ['GET'])]
+    public function afficherProfilJson(string $code, SerializerInterface $serializer): Response
+    {
+        $user = $this->utilisateurRepo->findOneBy(['codeUnique' => $code]);
+        $tab = $serializer->serialize($user, 'json');
+        $response = new Response();
+        $response->setContent($tab);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 }

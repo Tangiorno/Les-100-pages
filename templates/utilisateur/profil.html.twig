@@ -12,10 +12,11 @@
 
     <h2>{{ user.login }}</h2>
     <ul>
-        <li>Pays: {{ user.pays }}</li>
-        <li>Numéro de téléphone: {{ user.numeroTelephone }}</li>
-        <li>Adresse email: {{ user.email }}</li>
-        <li>enzo push stp ça se fait en 5 minutes de print les infos</li>
+        <li>Adresse mail : {{ user.email }}</li>
+        <li>Numéro de téléphone : {{ user.numeroTelephone }}</li>
+        <li>Pays : {{ user.pays }}</li>
+        <li>Dernière connexion : {{ user.dateConnexion | date('d/m/y') }}</li>
+        <li>Dernière édition : {{ user.dateEdition | date('d/m/y') }}</li>
     </ul>
 
     {% if isSelfProfile %}
