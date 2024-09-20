@@ -114,6 +114,28 @@ class UtilisateurController extends AbstractController
         */
     }
 
+    #[Route('/suppression', name: 'suppression', methods: ['POST'])]
+    public function supprimer(Request $request, EntityManagerInterface $manager, Security $security): Response
+    {
+        if (!$this->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('liste');
+        }
+
+        $user = $this->getUser();
+
+        if (!$this->isCsrfTokenValid('delete-account', $request->request->get('_token'))) {
+            $this->addFlash('error', 'Invalid CSRF token');
+            return $this->redirectToRoute('detailProfil', ['code' => $user->getUserIdentifier()]);
+        }
+
+        $manager->remove($user);
+        $manager->flush();
+
+        $security->logout();
+
+        return $this->redirectToRoute('liste');
+    }
+
     #[Route('/connexion', name: 'connexion', methods: ['GET', 'POST'])]
     public function connexion(AuthenticationUtils $authenticationUtils): Response
     {
