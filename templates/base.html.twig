@@ -1,25 +1,39 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>{% block title %}{% endblock %}</title>
+    <title>Annuaire - {% block title_suffix %}{% endblock %}</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="{{ asset("css/app.css") }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset("styles/app.css") }}">
+    <script defer type="text/javascript" src="{{ asset('app.js') }}"></script>
 </head>
 <body>
 <header>
-    <h3>HEADER</h3>
+    <div class="center">
+        <nav>
+            <a href="{{ path("liste") }}">Accueil</a>
+            {% if is_granted("ROLE_USER") %}
+                <form method="post" action="{{ path("_logout_main") }}">
+                    <button id="btn-deconnexion">Se déconnecter</button>
+                </form>
+            {% else %}
+                <a href="{{ path("creation") }}">Créer son profil</a>
+                <a href="{{ path("connexion") }}">Se connecter</a>
+            {% endif %}
+        </nav>
+    </div>
 </header>
 <div id="flashes-container">
-    {% for flash in app.flashes('success') %}
-        <span class="flashes flashes-success">{{ flash }}</span>
+    {% for success in app.flashes("success") %}
+        <span class="flashes flashes-success">{{ success }}</span>
     {% endfor %}
-    {% for flash in app.flashes('error') %}
-        <span class="flashes flashes-error">{{ flash }}</span>
+    {% for error in app.flashes("error") %}
+        <span class="flashes flashes-error">{{ error }}</span>
     {% endfor %}
 </div>
-{% block page_content %}{% endblock %}
-</body>
+{% block page_content %}
+{% endblock %}
 <footer>
-    <h3>FOOTER</h3>
+    FOOTER
 </footer>
+</body>
 </html>

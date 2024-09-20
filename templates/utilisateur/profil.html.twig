@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}PLACEHOLDER TITLE{% endblock %}
+{% block title_suffix %}
+    {% if isSelfProfile %}
+        Mon profil
+    {% else %}
+        Profil de {{ user.login }}
+    {% endif %}
+{% endblock %}
 
 {% block page_content %}
 
@@ -12,5 +18,9 @@
         <li>Dernière connexion : {{ user.dateConnexion | date('d/m/y') }}</li>
         <li>Dernière édition : {{ user.dateEdition | date('d/m/y') }}</li>
     </ul>
+
+    {% if isSelfProfile %}
+        <a href="{{ path('edition') }}">Modifier mon profil</a>
+    {% endif %}
 
 {% endblock %}
