@@ -151,6 +151,9 @@ class UtilisateurController extends AbstractController
     {
         $user = $this->utilisateurRepo->findOneBy(['codeUnique' => $code]);
         $tab = $serializer->serialize($user, 'json');
-        return $this->render("utilisateur/profilJson.html.twig", ["user" => $user, "json" => $tab]);
+        $response = new Response();
+        $response->setContent($tab);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 }
