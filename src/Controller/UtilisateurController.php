@@ -6,6 +6,7 @@ use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class UtilisateurController extends AbstractController
 {
@@ -29,5 +30,13 @@ class UtilisateurController extends AbstractController
     {
         $user = $this->utilisateurRepo->findOneBy(['codeUnique' => $code]);
         return $this->render("utilisateur/profil.html.twig", ["user" => $user]);
+    }
+
+    #[Route('/profil/{code}/json', 'detailProfiltJson', methods: ['GET'])]
+    public function afficherProfilJson(string $code, SerializerInterface $serializer): Response
+    {
+        $user = $this->utilisateurRepo->findOneBy(['codeUnique' => $code]);
+        $tab = $serializer->serialize($user, 'json');
+        return $this->render("utilisateur/profilJson.html.twig", ["user" => $user, "json" => $tab]);
     }
 }

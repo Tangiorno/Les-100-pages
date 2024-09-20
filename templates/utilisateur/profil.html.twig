@@ -6,8 +6,11 @@
 
     <h2>{{ user.login }}</h2>
     <ul>
-        <li>{{ user.email }}</li>
-        <li>{{ user.numeroTelephone }}</li>
+        <li>Adresse mail : {{ user.email }}</li>
+        <li>Numéro de téléphone : {{ user.numeroTelephone }}</li>
+        <li>Pays : {{ user.pays }}</li>
+        <li>Dernière connexion : {{ user.dateConnexion | date('d/m/y') }}</li>
+        <li>Dernière édition : {{ user.dateEdition | date('d/m/y') }}</li>
     </ul>
 
 {% endblock %}
