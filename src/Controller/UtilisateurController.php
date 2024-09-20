@@ -92,11 +92,17 @@ class UtilisateurController extends AbstractController
         $user = $this->getUser();
 
         $user = $manager->getRepository(Utilisateur::class)->findOneBy(["codeUnique" => $user->getUserIdentifier()]);
+        $hashedPassword = $user->getPassword();
         $form = $this->createForm(UtilisateurModifType::class, $user, ["method" => "POST", "action" => $this->generateUrl("edition")]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $utilisateurManager->processModifUtilisateur($user, $form['password']->getData());
+            if($form['password']->getData() == null){
+                $utilisateurManager->processModifUtilisateur($user, $hashedPassword);
+            }
+            else{
+                $utilisateurManager->processModifUtilisateur($user, $form['password']->getData(), true);
+            }
             $manager->flush();
             $this->addFlash('success', 'Profil modifié avec succès');
             return $this->redirectToRoute('liste');
