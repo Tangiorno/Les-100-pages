@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Regex;
 
-class UtilisateurType extends AbstractType
+class UtilisateurCreaType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -31,15 +31,6 @@ class UtilisateurType extends AbstractType
                     new Regex("#^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,30}$#", "Le mot de passe doit contenir au minimum une majuscule, une minuscule et un chiffre")]])
             ->add('codeUnique', TextType::class, ["required" => false])
             ->add('visible', CheckboxType::class, ['required' => false, 'data' => true]) //data = true check la box par défaut
-            /*            ->add('numeroTelephone', TextType::class)
-                        ->add('pays', TextType::class)
-              */          /*->add('dateEdition', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('dateConnexion', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('roles')*/
             ->add('creation', SubmitType::class);
     }
 

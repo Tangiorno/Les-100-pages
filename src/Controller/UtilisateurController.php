@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurModifType;
-use App\Form\UtilisateurType;
+use App\Form\UtilisateurCreaType;
 use App\Repository\UtilisateurRepository;
 use App\Service\UtilisateurManager;
 use App\Service\UtilisateurManagerInterface;
@@ -57,7 +57,7 @@ class UtilisateurController extends AbstractController
         }
 
         $utilisateur = new Utilisateur();
-        $form = $this->createForm(UtilisateurType::class, $utilisateur, ["method" => "POST", "action" => $this->generateUrl("creation")]);
+        $form = $this->createForm(UtilisateurCreaType::class, $utilisateur, ["method" => "POST", "action" => $this->generateUrl("creation")]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,11 +91,11 @@ class UtilisateurController extends AbstractController
 
         $user = $this->getUser();
 
+        $user = $manager->getRepository(Utilisateur::class)->findOneBy(["codeUnique" => $user->getUserIdentifier()]);
         $form = $this->createForm(UtilisateurModifType::class, $user, ["method" => "POST", "action" => $this->generateUrl("edition")]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->getRepository(Utilisateur::class)->find($user->getId());
             $utilisateurManager->processModifUtilisateur($user, $form['password']->getData());
             $manager->flush();
             $this->addFlash('success', 'Profil modifié avec succès');

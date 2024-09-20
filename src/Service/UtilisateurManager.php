@@ -4,11 +4,7 @@ namespace App\Service;
 
 use App\Entity\Utilisateur;
 use DateTime;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class UtilisateurManager implements UtilisateurManagerInterface
 {
@@ -22,7 +18,7 @@ class UtilisateurManager implements UtilisateurManagerInterface
     /**
      * Chiffre le mot de passe puis l'affecte au champ correspondant dans la classe de l'utilisateur
      */
-    private function chiffrerMotDePasse(UserInterface|PasswordAuthenticatedUserInterface $utilisateur, ?string $plainPassword): void
+    private function chiffrerMotDePasse(Utilisateur $utilisateur, ?string $plainPassword): void
     {
         $hash = $this->userPasswordHasher->hashPassword($utilisateur, $plainPassword);
         $utilisateur->setPassword($hash);
@@ -43,7 +39,7 @@ class UtilisateurManager implements UtilisateurManagerInterface
         }
     }
 
-    public function processModifUtilisateur(UserInterface $utilisateur, ?string $plainPassword): void
+    public function processModifUtilisateur(Utilisateur $utilisateur, ?string $plainPassword): void
     {
         if($plainPassword !== null) {
             $this->chiffrerMotDePasse($utilisateur, $plainPassword);
