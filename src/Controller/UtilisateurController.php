@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Utilisateur;
+use App\Form\UtilisateurModifType;
 use App\Form\UtilisateurType;
 use App\Repository\UtilisateurRepository;
 use App\Service\UtilisateurManager;
@@ -60,7 +61,7 @@ class UtilisateurController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $utilisateurManager->processNewUtilisateur($utilisateur, $form['plainPassword']->getData(), $form['visible']->getData());
+            $utilisateurManager->processNewUtilisateur($utilisateur, $form['plainPassword']->getData());
             $manager->persist($utilisateur);
             $manager->flush();
 
@@ -90,28 +91,22 @@ class UtilisateurController extends AbstractController
 
         $user = $this->getUser();
 
-        U::pd("user à modifier :", $user);
+        $form = $this->createForm(UtilisateurModifType::class, $user, ["method" => "POST", "action" => $this->generateUrl("edition")]);
 
-        // !!!!!!!!!!! Ce code commenté c'est pour une template de modification, mais là c'est juste celui de création.
-        // !!!!!!!!!!! Si la route c'est pas un truc genre /edition/{code} c'est parce qu'on peut seulement modifier
-        // !!!!!!!!!!! son propre profil donc autant juste modifier getUser().
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $utilisateurManager->processModifUtilisateur($user, $form['plainPassword']->getData());
+            $manager->persist($user);
+            $manager->flush();
+            $this->addFlash('success', 'Profil modifié avec succès');
+            return $this->redirectToRoute('liste');
+        }
 
-        /*        $form = $this->createForm(UtilisateurType::class, $utilisateur, ["method" => "POST", "action" => $this->generateUrl("creation")]);
-
-                $form->handleRequest($request);
-                if ($form->isSubmitted() && $form->isValid()) {
-                    $utilisateurManager->processNewUtilisateur($utilisateur, $form['plainPassword']->getData(), $form['visible']->getData());
-                    $manager->persist($utilisateur);
-                    $manager->flush();
-                    $this->addFlash('success', 'Profil créé avec succès');
-                    return $this->redirectToRoute('liste');
-                }
-
-                $this->flashMessageHelper->addFormErrorsAsFlash($form);
+        $this->flashMessageHelper->addFormErrorsAsFlash($form);
 
 
-                return $this->render('utilisateur/creation.html.twig', ["formUser" => $form]);
-        */
+        return $this->render('utilisateur/edition.html.twig', ["formUser" => $form]);
+
     }
 
     #[Route('/suppression', name: 'suppression', methods: ['POST'])]

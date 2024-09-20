@@ -7,6 +7,8 @@ use DateTime;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UtilisateurManager implements UtilisateurManagerInterface
 {
@@ -20,7 +22,7 @@ class UtilisateurManager implements UtilisateurManagerInterface
     /**
      * Chiffre le mot de passe puis l'affecte au champ correspondant dans la classe de l'utilisateur
      */
-    private function chiffrerMotDePasse(Utilisateur $utilisateur, ?string $plainPassword): void
+    private function chiffrerMotDePasse(UserInterface|PasswordAuthenticatedUserInterface $utilisateur, ?string $plainPassword): void
     {
         $hash = $this->userPasswordHasher->hashPassword($utilisateur, $plainPassword);
         $utilisateur->setPassword($hash);
@@ -30,7 +32,7 @@ class UtilisateurManager implements UtilisateurManagerInterface
     /**
      * Réalise toutes les opérations nécessaires avant l'enregistrement en base d'un nouvel utilisateur, après soumissions du formulaire (hachage du mot de passe...)
      */
-    public function processNewUtilisateur(Utilisateur $utilisateur, ?string $plainPassword, ?bool $visible): void
+    public function processNewUtilisateur(Utilisateur $utilisateur, ?string $plainPassword): void
     {
         $this->chiffrerMotDePasse($utilisateur, $plainPassword);
         $utilisateur->setDateConnexion(new DateTime());
@@ -39,6 +41,13 @@ class UtilisateurManager implements UtilisateurManagerInterface
         if ($utilisateur->getCodeUnique() == null) {
             $utilisateur->setCodeUnique(uniqid());
         }
+    }
+
+    public function processModifUtilisateur(UserInterface $utilisateur, ?string $plainPassword): void
+    {
+        $this->chiffrerMotDePasse($utilisateur, $plainPassword);
+        $utilisateur->setDateEdition(new DateTime());
+        $utilisateur->setDateConnexion(new DateTime());
     }
 
 }
