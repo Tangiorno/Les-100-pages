@@ -16,16 +16,6 @@ class UtilisateurManager implements UtilisateurManagerInterface
     }
 
     /**
-     * Chiffre le mot de passe puis l'affecte au champ correspondant dans la classe de l'utilisateur
-     */
-    private function chiffrerMotDePasse(Utilisateur $utilisateur, ?string $plainPassword): void
-    {
-        $hash = $this->userPasswordHasher->hashPassword($utilisateur, $plainPassword);
-        $utilisateur->setPassword($hash);
-    }
-
-
-    /**
      * Réalise toutes les opérations nécessaires avant l'enregistrement en base d'un nouvel utilisateur, après soumissions du formulaire (hachage du mot de passe...)
      */
     public function processNewUtilisateur(Utilisateur $utilisateur, ?string $plainPassword): void
@@ -39,12 +29,20 @@ class UtilisateurManager implements UtilisateurManagerInterface
         }
     }
 
+    /**
+     * Chiffre le mot de passe puis l'affecte au champ correspondant dans la classe de l'utilisateur
+     */
+    private function chiffrerMotDePasse(Utilisateur $utilisateur, ?string $plainPassword): void
+    {
+        $hash = $this->userPasswordHasher->hashPassword($utilisateur, $plainPassword);
+        $utilisateur->setPassword($hash);
+    }
+
     public function processModifUtilisateur(Utilisateur $utilisateur, ?string $plainPassword, bool $passwordUpdated = false): void
     {
-        if($passwordUpdated) {
+        if ($passwordUpdated) {
             $this->chiffrerMotDePasse($utilisateur, $plainPassword);
-        }
-        else{
+        } else {
             $utilisateur->setPassword($plainPassword);
         }
         $utilisateur->setDateEdition(new DateTime());

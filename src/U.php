@@ -6,6 +6,14 @@ use JetBrains\PhpStorm\NoReturn;
 
 class U
 {
+    #[NoReturn] public static function pd(...$args): void
+    {
+        foreach ($args as $var) {
+            self::p($var);
+        }
+        die();
+    }
+
     public static function p(...$args): void
     {
         foreach ($args as $var) {
@@ -17,13 +25,5 @@ class U
             print_r($var);
             echo "</pre>";
         }
-    }
-
-    #[NoReturn] public static function pd(...$args): void
-    {
-        foreach ($args as $var) {
-            self::p($var);
-        }
-        die();
     }
 }

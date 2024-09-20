@@ -26,8 +26,7 @@ class UtilisateurModifType extends AbstractType
             ->add('visible', CheckboxType::class)
             ->add('numeroTelephone', TextType::class, ["required" => false])
             ->add('pays', TextType::class, ["required" => false])
-            ->add('edition', SubmitType::class)
-        ;
+            ->add('edition', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

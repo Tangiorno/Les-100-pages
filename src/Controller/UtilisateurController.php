@@ -3,24 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\Utilisateur;
-use App\Form\UtilisateurModifType;
 use App\Form\UtilisateurCreaType;
+use App\Form\UtilisateurModifType;
 use App\Repository\UtilisateurRepository;
-use App\Service\UtilisateurManager;
+use App\Service\FlashMessageHelperInterface;
 use App\Service\UtilisateurManagerInterface;
-use App\U;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
-use App\Service\FlashMessageHelperInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 
 class UtilisateurController extends AbstractController
 {
@@ -98,10 +93,9 @@ class UtilisateurController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if($form['password']->getData() == null){
+            if ($form['password']->getData() == null) {
                 $utilisateurManager->processModifUtilisateur($user, $hashedPassword);
-            }
-            else{
+            } else {
                 $utilisateurManager->processModifUtilisateur($user, $form['password']->getData(), true);
             }
             $manager->flush();
