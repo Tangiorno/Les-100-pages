@@ -117,6 +117,7 @@ class UtilisateurController extends AbstractController
         }
 
         $user = $this->getUser();
+        $user = $manager->getRepository(Utilisateur::class)->findOneBy(["codeUnique" => $user->getUserIdentifier()]);
 
         if (!$this->isCsrfTokenValid('delete-account', $request->request->get('_token'))) {
             $this->addFlash('error', 'Invalid CSRF token');
@@ -126,7 +127,9 @@ class UtilisateurController extends AbstractController
         $manager->remove($user);
         $manager->flush();
 
-        $security->logout();
+        $security->logout(false);
+
+        $this->addFlash('success', 'Profil supprimé avec succès');
 
         return $this->redirectToRoute('liste');
     }
