@@ -19,18 +19,19 @@
             </div>
             <div class="access-container">
                 {{ form_label(formUser.plainPassword, 'Votre mot de passe') }}
-                <p class="help-input-form">Entre 8 et 50 caractères, au moins une minuscule, une majuscule et un nombre</p>
+                <p class="help-input-form">Entre 8 et 50 caractères, au moins une minuscule, une majuscule et un
+                    nombre</p>
                 {{ form_widget(formUser.plainPassword, {'id': 'password', 'attr': {'placeholder': 'Entrez votre mot de passe'}}) }}
-            </div>
-            <div class="access-container">
-                {{ form_label(formUser.visible, 'Souhaitez-vous que votre profil soit visible ?') }}
-                {{ form_widget(formUser.visible, {'id': 'visible'}) }}
             </div>
             <div class="access-container">
                 {{ form_label(formUser.codeUnique, 'Rentrez un code unique qui vous servira à vous identifier, ou laissez le champ vide pour le générer aléatoirement') }}
                 {{ form_widget(formUser.codeUnique, {'id': 'codeUnique'}) }}
             </div>
             <div class="access-container">
+                {{ form_label(formUser.visible, 'Souhaitez-vous que votre profil soit visible ?') }}
+                {{ form_widget(formUser.visible, {'id': 'visible'}) }}
+            </div>
+            {# <div class="access-container">
                 {{ form_label(formUser.numeroTelephone, 'Entrez votre numéro de téléphone') }}
                 {{ form_widget(formUser.numeroTelephone, {'id': 'numeroTelephone'}) }}
             </div>
@@ -38,7 +39,7 @@
                 {{ form_label(formUser.pays, 'Entrez votre pays de résidence') }}
                 {{ form_widget(formUser.pays, {'id': 'pays'}) }}
             </div>
-            {{ form_widget(formUser.creation, {'label': "Créer votre profil !", 'attr': {'class': 'basic-form-submit'}}) }}
+            #}{{ form_widget(formUser.creation, {'label': "Créer votre profil !", 'attr': {'class': 'basic-form-submit'}}) }}
         </fieldset>
         {{ form_rest(formUser) }}
         {{ form_end(formUser) }}
