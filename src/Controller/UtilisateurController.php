@@ -111,25 +111,28 @@ class UtilisateurController extends AbstractController
 
     }
 
-    #[Route('/suppression', name: 'suppression', methods: ['POST'])]
-    public function supprimer(Request $request, EntityManagerInterface $manager, Security $security): Response
+    #[Route('/suppression/{code}', name: 'suppression', methods: ['POST'])]
+    public function supprimer(string $code, Request $request, EntityManagerInterface $manager, Security $security): Response
     {
-        if (!$this->isGranted('ROLE_USER')) {
+        $currentUser = $this->getUser();
+
+        if (!$this->isGranted('ROLE_USER') || !($currentUser->getUserIdentifier() == $code || $this->isGranted('ROLE_ADMIN'))) {
             return $this->redirectToRoute('liste');
         }
 
-        $user = $this->getUser();
-        $user = $manager->getRepository(Utilisateur::class)->findOneBy(["codeUnique" => $user->getUserIdentifier()]);
+        $userToDelete = $manager->getRepository(Utilisateur::class)->findOneBy(["codeUnique" => $code]);
 
         if (!$this->isCsrfTokenValid('delete-account', $request->request->get('_token'))) {
             $this->addFlash('error', 'Invalid CSRF token');
-            return $this->redirectToRoute('detailProfil', ['code' => $user->getUserIdentifier()]);
+            return $this->redirectToRoute('detailProfil', ['code' => $code]);
         }
 
-        $manager->remove($user);
+        $logoutUser = $currentUser->getUserIdentifier() == $userToDelete->getUserIdentifier();
+
+        $manager->remove($userToDelete);
         $manager->flush();
 
-        $security->logout(false);
+        if ($logoutUser) $security->logout(false);
 
         $this->addFlash('success', 'Profil supprimé avec succès');
 

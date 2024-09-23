@@ -28,7 +28,7 @@
 
         {% if isSelfProfile or (is_granted('ROLE_ADMIN') and not user.hasRole('ROLE_ADMIN')) %}
             <button id="delete-button" class="btn btn-danger" onclick="handleDeletePopup()">Supprimer ce profil</button>
-            <form id="delete-form" action="{{ path('suppression') }}" method="POST">
+            <form id="delete-form" action="{{ path('suppression', { 'code': user.codeUnique }) }}" method="POST">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete-account') }}">
             </form>
             <div id="confirmation-modal" style="display:none;" class="modal">
