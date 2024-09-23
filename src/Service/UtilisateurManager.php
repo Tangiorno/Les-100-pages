@@ -23,7 +23,6 @@ class UtilisateurManager implements UtilisateurManagerInterface
         $this->chiffrerMotDePasse($utilisateur, $plainPassword);
         $utilisateur->setDateConnexion(new DateTime());
         $utilisateur->setDateEdition(new DateTime());
-        $utilisateur->setProfil(1);
         if ($utilisateur->getCodeUnique() == null) {
             $utilisateur->setCodeUnique(uniqid());
         }
