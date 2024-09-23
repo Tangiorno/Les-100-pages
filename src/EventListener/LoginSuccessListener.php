@@ -2,6 +2,7 @@
 
 namespace App\EventListener;
 
+use App\U;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
@@ -21,7 +22,6 @@ class LoginSuccessListener
         $user = $event->getUser();
         if ($user instanceof Utilisateur) {
             $user->setDateConnexion(new DateTime());
-            $this->entityManager->persist($user);
             $this->entityManager->flush();
         }
     }

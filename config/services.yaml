@@ -22,4 +22,4 @@ services:
 
     App\EventListener\LoginSuccessListener:
         tags:
-            - { name: 'kernel.event_listener', event: 'security.login_success', method: 'onLoginSuccess' }
+            - { name: kernel.event_listener, event: Symfony\Component\Security\Http\Event\LoginSuccessEvent, method: onLoginSuccess }
