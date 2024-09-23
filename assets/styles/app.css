@@ -75,3 +75,18 @@ html, body {
     color: #0056b3;
     text-decoration: underline;
   }
+
+  footer{
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      justify-content: center;
+  }
+
+  .liste-noms{
+      margin-left: 42%;
+  }
+
+  #titreNoms{
+      margin-left: -3%;
+  }
