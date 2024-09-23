@@ -23,4 +23,19 @@
         <a href="{{ path('edition') }}">Modifier mon profil</a>
     {% endif %}
 
+    {% if isSelfProfile or (is_granted('ROLE_ADMIN') and not user.hasRole('ROLE_ADMIN')) %}
+        <button id="delete-button" class="btn btn-danger" onclick="handleDeletePopup()">Supprimer ce profil</button>
+        <form id="delete-form" action="{{ path('suppression') }}" method="POST">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete-account') }}">
+        </form>
+        <div id="confirmation-modal" style="display:none;" class="modal">
+            <div class="modal-content">
+                <span id="close-modal" class="close-button">&times;</span>
+                <p>Êtes-vous sûr de vouloir supprimer ce profil ?</p>
+                <button id="confirm-delete" class="btn btn-danger">Oui</button>
+                <button id="cancel-delete" class="btn btn-secondary">Non</button>
+            </div>
+        </div>
+    {% endif %}
+
 {% endblock %}
