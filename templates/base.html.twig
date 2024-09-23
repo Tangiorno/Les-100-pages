@@ -28,10 +28,8 @@
                     {% endif %}
                     <li class="nav-item"><a href="{{ path("liste") }}">Accueil</a></li>
                     {% if is_granted("ROLE_USER") %}
-                        <li class="nav-item">
-                            <form method="get" action="{{ path("detailProfil", { 'code': app.user.userIdentifier }) }}">
-                                <button id="btn-deconnexion" class="nav-link btn btn-link">Mon profil</button>
-                            </form>
+                        <li class="nav-item"><a href="{{ path("detailProfil", { 'code': app.user.userIdentifier }) }}">Mon
+                                profil</a>
                         </li>
                         <li class="nav-item">
                             <form method="post" action="{{ path("_logout_main") }}">
