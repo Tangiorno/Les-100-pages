@@ -1,5 +1,5 @@
 parameters:
-    maintenance_mode: false
+    maintenance_mode: true
 
 services:
     # default configuration for services in *this* file

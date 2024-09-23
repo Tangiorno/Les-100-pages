@@ -90,3 +90,19 @@ html, body {
   #titreNoms{
       margin-left: -3%;
   }
+
+  main{
+      margin-top: 5%;
+  }
+
+  .list-group-item {
+    transition: background-color 0.3s;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+#visibilite {
+    width: 120%;
+}
