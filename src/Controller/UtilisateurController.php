@@ -96,7 +96,7 @@ class UtilisateurController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if($form['codeUnique']->getData() == null){
+            if ($form['codeUnique']->getData() == null) {
                 $user->setCodeUnique(uniqid());
             }
             if ($form['password']->getData() == null) {
@@ -106,11 +106,10 @@ class UtilisateurController extends AbstractController
             }
             $manager->flush();
             $this->addFlash('success', 'Profil modifié avec succès');
-            return $this->redirectToRoute('liste');
+            return $this->redirectToRoute('detailProfil', ['code' => $user->getCodeUnique()]);
         }
 
         $this->flashMessageHelper->addFormErrorsAsFlash($form);
-
 
         return $this->render('utilisateur/edition.html.twig', ["formUser" => $form, 'user' => $user]);
 
