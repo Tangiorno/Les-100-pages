@@ -29,7 +29,12 @@ class UtilisateurController extends AbstractController
     #[Route('/', name: 'liste', methods: ['GET'])]
     public function liste(): Response
     {
-        $utilisateurs = $this->utilisateurRepo->findBy(['visible' => true]);
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $utilisateurs = $this->utilisateurRepo->findAll();
+        } else {
+            $utilisateurs = $this->utilisateurRepo->findBy(['visible' => true]);
+        }
+
         return $this->render('utilisateur/liste.html.twig', [
             'utilisateurs' => $utilisateurs,
         ]);
@@ -67,11 +72,6 @@ class UtilisateurController extends AbstractController
             $security->login($utilisateur);
 
             return $this->redirectToRoute('liste');
-            /*return $userAuthenticator->authenticateUser(
-                $utilisateur,
-                $authenticator,
-                $request
-            );*/
         }
 
         $this->flashMessageHelper->addFormErrorsAsFlash($form);
