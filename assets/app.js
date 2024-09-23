@@ -34,7 +34,7 @@ window.queryAJAX = () => {
         clearTimeout(timeout);
         timeout = setTimeout(function () {
             checkEmail(emailInput.value);
-        }, 500);
+        }, 100);
     });
     codeUniqueInput.addEventListener('input', function () {
         clearTimeout(timeout);

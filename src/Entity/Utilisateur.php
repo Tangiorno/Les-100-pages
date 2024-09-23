@@ -42,9 +42,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?DateTimeInterface $dateConnexion = null;
 
     #[ORM\Column]
-    private ?bool $profil = null;
-
-    #[ORM\Column]
     private ?bool $visible = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -192,17 +189,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRoles(?array $roles): void
     {
         $this->roles = $roles;
-    }
-
-
-    public function getProfil(): ?bool
-    {
-        return $this->profil;
-    }
-
-    public function setProfil(?bool $profil): void
-    {
-        $this->profil = $profil;
     }
 
     /**
