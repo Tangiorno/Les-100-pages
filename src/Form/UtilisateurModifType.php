@@ -23,7 +23,7 @@ class UtilisateurModifType extends AbstractType
             ->add('email', EmailType::class, ["required" => false])
             ->add('codeUnique', TextType::class, ["required" => false])
             ->add('password', PasswordType::class, ["required" => false])
-            ->add('visible', CheckboxType::class)
+            ->add('visible', CheckboxType::class, ["required" => false])
             ->add('numeroTelephone', TextType::class, ["required" => false])
             ->add('pays', TextType::class, ["required" => false])
             ->add('edition', SubmitType::class);
