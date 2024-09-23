@@ -27,9 +27,9 @@ class UtilisateurCreaType extends AbstractType
             ->add('plainPassword', PasswordType::class, ["mapped" => false, "constraints" =>
                 [new NotBlank(), new NotNull(),
                     new Length(["min" => 8, "max" => 50, "minMessage" => "Le mot de passe doit posséder au minimum 8 caractères", "maxMessage" => "Le mot de passe doit posséder au maximum 50 caractères"]),
-                    CustomRegexes::regexMdp()]])
+                    CustomRegexes::getRegexes()['password']]])
             ->add('codeUnique', TextType::class, ["required" => false, "constraints" =>[
-                CustomRegexes::regexMdp()
+                CustomRegexes::getRegexes()['password']
             ]])
             ->add('visible', CheckboxType::class, ['required' => false, 'data' => true]) //data = true check la box par défaut
             ->add('creation', SubmitType::class);

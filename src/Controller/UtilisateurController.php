@@ -6,6 +6,7 @@ use App\Entity\Utilisateur;
 use App\Form\UtilisateurCreaType;
 use App\Form\UtilisateurModifType;
 use App\Repository\UtilisateurRepository;
+use App\Security\CustomRegexes;
 use App\Service\FlashMessageHelperInterface;
 use App\Service\UtilisateurManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validation;
 
 class UtilisateurController extends AbstractController
 {
@@ -169,6 +171,16 @@ class UtilisateurController extends AbstractController
     public function checkFieldNotTaken(string $key, string $value): JsonResponse
     {
         $user = $this->utilisateurRepo->findOneBy([$key => $value]);
+
+        $regexes = CustomRegexes::getRegexes();
+        if (array_key_exists($key, $regexes)) {
+            $regex = $regexes[$key];
+            $validator = Validation::createValidator();
+            $violations = $validator->validate($value, $regex);
+            if (count($violations) > 0) {
+                return new JsonResponse("", Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+        }
 
         return new JsonResponse("", ($user ? Response::HTTP_NO_CONTENT : Response::HTTP_NOT_FOUND));
     }
