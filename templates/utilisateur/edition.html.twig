@@ -31,7 +31,8 @@
             </div>
             <div class="access-container">
                 {{ form_label(formUser.password, 'Modifiez votre mot de passe') }}
-                <p class="help-input-form">Entre 8 et 50 caractères, au moins une minuscule, une majuscule et un chiffre</p>
+                <p class="help-input-form">Entre 8 et 50 caractères, au moins une minuscule, une majuscule et un
+                    chiffre</p>
                 {{ form_widget(formUser.password, {'id': 'password', 'required': false, 'attr': {'placeholder':  'Entrez votre nouveau mot de passe (facultatif)' }}) }}
             </div>
             <div class="access-container">
@@ -50,18 +51,6 @@
         </fieldset>
         {{ form_rest(formUser) }}
         {{ form_end(formUser) }}
-        <button id="delete-button" class="btn btn-danger" onclick="handleDeletePopup()">Supprimer mon profil</button>
-    <form id="delete-form" action="{{ path('suppression') }}" method="POST">
-        <input type="hidden" name="_token" value="{{ csrf_token('delete-account') }}">
-    </form>
-    <div id="confirmation-modal" style="display:none;" class="modal">
-        <div class="modal-content">
-            <span id="close-modal" class="close-button">&times;</span>
-            <p>Êtes-vous sûr de vouloir supprimer votre profil ?</p>
-            <button id="confirm-delete" class="btn btn-danger">Oui</button>
-            <button id="cancel-delete" class="btn btn-secondary">Non</button>
-        </div>
-    </div>
     </main>
 
 {% endblock %}

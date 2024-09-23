@@ -12,6 +12,9 @@
 <header>
     <div class="center">
         <nav>
+            {% if is_granted('ROLE_ADMIN') %}
+                <h2>| ADMIN |</h2>
+            {% endif %}
             <a href="{{ path("liste") }}">Accueil</a>
             {% if is_granted("ROLE_USER") %}
                 <form method="post" action="{{ path("_logout_main") }}">
@@ -35,7 +38,7 @@
 {% block page_content %}
 {% endblock %}
 {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('app') }}
 {% endblock %}
 <footer>
     FOOTER
