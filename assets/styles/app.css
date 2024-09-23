@@ -83,12 +83,14 @@ html, body {
       justify-content: center;
   }
 
-  .liste-noms{
-      margin-left: 42%;
-  }
+
 
   #titreNoms{
-      margin-left: -3%;
+      margin-left: 44%;
+  }
+
+  #listeNoms{
+      margin-left: 36%;
   }
 
   main{
