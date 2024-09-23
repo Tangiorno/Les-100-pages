@@ -30,11 +30,13 @@
                     <div class="mb-3">
                         {{ form_label(formUser.email, 'Modifiez votre adresse email', {'label_attr': {'class': 'form-label'}}) }}
                         {{ form_widget(formUser.email, {'id': 'email', 'required': false, 'attr': {'value': user.email, 'class': 'form-control'}}) }}
+                        <p id="emailVerifText"></p>
                     </div>
 
                     <div class="mb-3">
                         {{ form_label(formUser.codeUnique, 'Modifiez votre code unique', {'label_attr': {'class': 'form-label'}}) }}
                         {{ form_widget(formUser.codeUnique, {'id': 'codeUnique', 'required': false, 'attr': {'value': user.codeUnique, 'class': 'form-control'}}) }}
+                        <p id="codeUniqueVerifText"></p>
                     </div>
                     <div class="mb-3">
                         {{ form_label(formUser.password, 'Modifiez votre mot de passe', {'label_attr': {'class': 'form-label'}}) }}
@@ -70,4 +72,10 @@
         </main>
     </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => queryAJAX())
+    </script>
 {% endblock %}
