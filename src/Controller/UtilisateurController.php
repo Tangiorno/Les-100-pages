@@ -136,13 +136,14 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/connexion', name: 'connexion', methods: ['GET', 'POST'])]
-    public function connexion(AuthenticationUtils $authenticationUtils): Response
+    public function connexion(AuthenticationUtils $authenticationUtils, EntityManagerInterface $manager): Response
     {
         if ($this->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('liste');
         }
 
         $lastUsername = $authenticationUtils->getLastUsername();
+
         return $this->render('utilisateur/connexion.html.twig', ["lastUsername" => $lastUsername]);
     }
 
