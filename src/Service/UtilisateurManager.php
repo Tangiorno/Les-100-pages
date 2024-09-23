@@ -45,7 +45,6 @@ class UtilisateurManager implements UtilisateurManagerInterface
             $utilisateur->setPassword($plainPassword);
         }
         $utilisateur->setDateEdition(new DateTime());
-        $utilisateur->setDateConnexion(new DateTime());
         $utilisateur->setRoles([]);
     }
 
