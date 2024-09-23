@@ -22,3 +22,50 @@ function handleDeletePopup() {
         }
     };
 }
+
+window.queryAJAX = () => {
+    const emailInput = document.getElementById('email');
+    const emailVerifText = document.getElementById('emailVerifText')
+    const codeUniqueInput = document.getElementById('codeUnique');
+    const codeUniqueVerifText = document.getElementById('codeUniqueVerifText')
+    let timeout = null;
+
+    emailInput.addEventListener('input', function () {
+        clearTimeout(timeout);
+        timeout = setTimeout(function () {
+            checkEmail(emailInput.value);
+        }, 500);
+    });
+    codeUniqueInput.addEventListener('input', function () {
+        clearTimeout(timeout);
+        timeout = setTimeout(function () {
+            checkCodeUnique(codeUniqueInput.value);
+        }, 500);
+    });
+
+    function checkEmail(email) {
+        fetch(Routing.generate("check_field_not_taken", {key: "email", value: email}), {method: 'HEAD'})
+            .then(response => response.status)
+            .then(code => {
+                if (code === 204) {
+                    emailVerifText.innerHTML = 'Cet e-mail est déjà pris !'
+                } else if (code === 404) {
+                    emailVerifText.innerHTML = "E-mail disponible !"
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function checkCodeUnique(code) {
+        fetch(Routing.generate("check_field_not_taken", {key: "codeUnique", value: code}), {method: 'HEAD'})
+            .then(response => response.status)
+            .then(code => {
+                if (code === 204) {
+                    codeUniqueVerifText.innerHTML = 'Ce code unique est déjà pris !'
+                } else if (code === 404) {
+                    codeUniqueVerifText.innerHTML = "Code unique disponible !"
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+}

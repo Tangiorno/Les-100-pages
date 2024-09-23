@@ -11,11 +11,12 @@ use App\Service\UtilisateurManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class UtilisateurController extends AbstractController
 {
@@ -156,5 +157,13 @@ class UtilisateurController extends AbstractController
         $response->setContent($tab);
         $response->headers->set('Content-Type', 'application/json');
         return $response;
+    }
+
+    #[Route('/check-field-not-taken/{key}/{value}', name: 'check_field_not_taken', options: ["expose" => true], methods: ['HEAD'])]
+    public function checkFieldNotTaken(string $key, string $value): JsonResponse
+    {
+        $user = $this->utilisateurRepo->findOneBy([$key => $value]);
+
+        return new JsonResponse("", ($user ? Response::HTTP_NO_CONTENT : Response::HTTP_NOT_FOUND));
     }
 }
