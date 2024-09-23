@@ -3,18 +3,19 @@
 {% block title_suffix %}Liste{% endblock %}
 
     {% block page_content %}
-
+    <div class="overflow-auto" style="max-height: 500px;">
     <div class="container mt-4">
     <h2 class="text-center mb-4">Annuaire</h2>
     <ul class="list-group">
         {% for profil in utilisateurs %}
-            <li href="{{ path('detailProfil', { 'code': profil.codeUnique }) }}" class="list-group-item">
-                <a href="" class="text-decoration-none text-dark">
+            <li class="list-group-item">
+                <a href="{{ path('detailProfil', { 'code': profil.codeUnique }) }}" class="text-decoration-none text-dark">
                     {{ profil.login }}
                 </a>
             </li>
         {% endfor %}
     </ul>
 </div>
+    </div>
 
 {% endblock %}

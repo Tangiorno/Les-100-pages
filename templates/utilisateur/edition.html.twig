@@ -3,6 +3,7 @@
 {% block title_suffix %} Éditez votre profil {% endblock %}
 
 {% block page_content %}
+    <div class="overflow-auto" style="max-height: 500px;">
     <div class="container mt-5">
         <main>
             <div class="overflow-auto" style="max-height: 500px;">
@@ -67,5 +68,6 @@
                 {{ form_end(formUser) }}
             </div>
         </main>
+    </div>
     </div>
 {% endblock %}
