@@ -30,8 +30,7 @@ class UtilisateurModifType extends AbstractType
                 CustomRegexes::getRegexes()['codeUnique']
             ]])
             ->add('password', PasswordType::class, ["mapped" => false,"required" => false,"constraints" =>
-                [new NotBlank(), new NotNull(),
-                    new Length(["min" => 8, "max" => 50, "minMessage" => "Le mot de passe doit posséder au minimum 8 caractères", "maxMessage" => "Le mot de passe doit posséder au maximum 50 caractères"]),
+                [new Length(["min" => 8, "max" => 50, "minMessage" => "Le mot de passe doit posséder au minimum 8 caractères", "maxMessage" => "Le mot de passe doit posséder au maximum 50 caractères"]),
                     CustomRegexes::getRegexes()['password']]])
             ->add('visible', CheckboxType::class, ["required" => false])
             ->add('numeroTelephone', TextType::class, ["required" => false, "constraints"=>[

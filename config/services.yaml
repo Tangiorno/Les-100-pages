@@ -19,3 +19,7 @@ services:
             $maintenanceMode: '%maintenance_mode%'
         tags:
             - { name: 'kernel.event_listener', event: 'kernel.request', method: 'onKernelRequest' }
+
+    App\EventListener\LoginSuccessListener:
+        tags:
+            - { name: 'kernel.event_listener', event: 'security.login_success', method: 'onLoginSuccess' }
