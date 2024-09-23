@@ -9,20 +9,36 @@
 {% endblock %}
 
 {% block page_content %}
-<div class="container mt-4">
-    <h2 class="text-center mb-4">{{ user.login }}</h2>
-    <ul class="list-group mb-4">
-        <li class="list-group-item">Adresse mail: <strong>{{ user.email }}</strong></li>
-        <li class="list-group-item">Numéro de téléphone: <strong>{{ user.numeroTelephone }}</strong></li>
-        <li class="list-group-item">Pays: <strong>{{ user.pays }}</strong></li>
-        <li class="list-group-item">Dernière connexion: <strong>{{ user.dateConnexion | date('d/m/Y') }}</strong></li>
-        <li class="list-group-item">Dernière édition: <strong>{{ user.dateEdition | date('d/m/Y') }}</strong></li>
-    </ul>
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">{{ user.login }}</h2>
+        <ul class="list-group mb-4">
+            <li class="list-group-item">Adresse mail: <strong>{{ user.email }}</strong></li>
+            <li class="list-group-item">Numéro de téléphone: <strong>{{ user.numeroTelephone }}</strong></li>
+            <li class="list-group-item">Pays: <strong>{{ user.pays }}</strong></li>
+            <li class="list-group-item">Dernière connexion: <strong>{{ user.dateConnexion | date('d/m/Y') }}</strong>
+            </li>
+            <li class="list-group-item">Dernière édition: <strong>{{ user.dateEdition | date('d/m/Y') }}</strong></li>
+        </ul>
 
-    {% if isSelfProfile %}
-        <div class="text-center">
-            <a href="{{ path('edition') }}" class="btn btn-primary">Modifier mon profil</a>
-        </div>
-    {% endif %}
-</div>
+        {% if isSelfProfile %}
+            <div class="text-center">
+                <a href="{{ path('edition') }}" class="btn btn-primary">Modifier mon profil</a>
+            </div>
+        {% endif %}
+        
+        {% if isSelfProfile or (is_granted('ROLE_ADMIN') and not user.hasRole('ROLE_ADMIN')) %}
+            <button id="delete-button" class="btn btn-danger" onclick="handleDeletePopup()">Supprimer ce profil</button>
+            <form id="delete-form" action="{{ path('suppression') }}" method="POST">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete-account') }}">
+            </form>
+            <div id="confirmation-modal" style="display:none;" class="modal">
+                <div class="modal-content">
+                    <span id="close-modal" class="close-button">&times;</span>
+                    <p>Êtes-vous sûr de vouloir supprimer ce profil ?</p>
+                    <button id="confirm-delete" class="btn btn-danger">Oui</button>
+                    <button id="cancel-delete" class="btn btn-secondary">Non</button>
+                </div>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
