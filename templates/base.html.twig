@@ -41,12 +41,19 @@
 </header>
 <div id="flashes-container">
     {% for success in app.flashes("success") %}
-        <span class="flashes flashes-success">{{ success }}</span>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ success }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     {% endfor %}
+
     {% for error in app.flashes("error") %}
-        <span class="flashes flashes-error">{{ error }}</span>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ error }}
+        </div>
     {% endfor %}
 </div>
+
 {% block page_content %}
 {% endblock %}
 {% block javascripts %}
