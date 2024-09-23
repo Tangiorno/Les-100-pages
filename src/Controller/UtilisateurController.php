@@ -94,6 +94,9 @@ class UtilisateurController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if($form['codeUnique']->getData() == null){
+                $user->setCodeUnique(uniqid());
+            }
             if ($form['password']->getData() == null) {
                 $utilisateurManager->processModifUtilisateur($user, $hashedPassword);
             } else {
