@@ -8,8 +8,8 @@
     <h2 class="text-center mb-4">Annuaire</h2>
     <ul class="list-group">
         {% for profil in utilisateurs %}
-            <li class="list-group-item">
-                <a href="{{ path('detailProfil', { 'code': profil.codeUnique }) }}" class="text-decoration-none text-dark">
+            <li href="{{ path('detailProfil', { 'code': profil.codeUnique }) }}" class="list-group-item">
+                <a href="" class="text-decoration-none text-dark">
                     {{ profil.login }}
                 </a>
             </li>
