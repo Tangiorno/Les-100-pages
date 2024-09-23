@@ -9,18 +9,20 @@
 {% endblock %}
 
 {% block page_content %}
-
-    <h2>{{ user.login }}</h2>
-    <ul>
-        <li>Adresse mail : {{ user.email }}</li>
-        <li>Numéro de téléphone : {{ user.numeroTelephone }}</li>
-        <li>Pays : {{ user.pays }}</li>
-        <li>Dernière connexion : {{ user.dateConnexion | date('d/m/y') }}</li>
-        <li>Dernière édition : {{ user.dateEdition | date('d/m/y') }}</li>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">{{ user.login }}</h2>
+    <ul class="list-group mb-4">
+        <li class="list-group-item">Adresse mail: <strong>{{ user.email }}</strong></li>
+        <li class="list-group-item">Numéro de téléphone: <strong>{{ user.numeroTelephone }}</strong></li>
+        <li class="list-group-item">Pays: <strong>{{ user.pays }}</strong></li>
+        <li class="list-group-item">Dernière connexion: <strong>{{ user.dateConnexion | date('d/m/Y') }}</strong></li>
+        <li class="list-group-item">Dernière édition: <strong>{{ user.dateEdition | date('d/m/Y') }}</strong></li>
     </ul>
 
     {% if isSelfProfile %}
-        <a href="{{ path('edition') }}">Modifier mon profil</a>
+        <div class="text-center">
+            <a href="{{ path('edition') }}" class="btn btn-primary">Modifier mon profil</a>
+        </div>
     {% endif %}
-
+</div>
 {% endblock %}

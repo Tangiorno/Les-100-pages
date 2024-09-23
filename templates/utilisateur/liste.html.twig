@@ -4,11 +4,17 @@
 
     {% block page_content %}
 
-    <h2>Annuaire</h2>
-    <ul>
+    <div class="container mt-4">
+    <h2 class="text-center mb-4">Annuaire</h2>
+    <ul class="list-group">
         {% for profil in utilisateurs %}
-            <li><a href="{{ path('detailProfil', { 'code': profil.codeUnique }) }}">{{ profil.login }}</a></li>
+            <li class="list-group-item">
+                <a href="{{ path('detailProfil', { 'code': profil.codeUnique }) }}" class="text-decoration-none text-dark">
+                    {{ profil.login }}
+                </a>
+            </li>
         {% endfor %}
     </ul>
+</div>
 
 {% endblock %}

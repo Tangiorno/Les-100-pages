@@ -3,42 +3,53 @@
 {% block title_suffix %}Créez votre profil{% endblock %}
 
 {% block page_content %}
-
+<div class="container mt-5">
     <main>
-        {{ form_start(formUser, {'attr': {'class': 'center basic-form'}}) }}
-        <fieldset>
-            <legend>Inscription</legend>
-            <div class="access-container">
-                {{ form_label(formUser.login, 'Votre login') }}
-                <p class="help-input-form">Maximum 50 caractères</p>
-                {{ form_widget(formUser.login, {'id': 'login', 'attr': {'placeholder': "Entrez votre login."}}) }}
-            </div>
-            <div class="access-container">
-                {{ form_label(formUser.email, 'Votre adresse email') }}
-                {{ form_widget(formUser.email, {'id': 'email', 'attr': {'placeholder': 'Entrez votre adresse email'}}) }}
-                <p id="emailVerifText"></p>
-            </div>
-            <div class="access-container">
-                {{ form_label(formUser.plainPassword, 'Votre mot de passe') }}
-                <p class="help-input-form">Entre 8 et 50 caractères, au moins une minuscule, une majuscule et un
-                    nombre</p>
-                {{ form_widget(formUser.plainPassword, {'id': 'password', 'attr': {'placeholder': 'Entrez votre mot de passe'}}) }}
-            </div>
-            <div class="access-container">
-                {{ form_label(formUser.codeUnique, 'Rentrez un code unique qui vous servira à vous identifier, ou laissez le champ vide pour le générer aléatoirement') }}
-                {{ form_widget(formUser.codeUnique, {'id': 'codeUnique'}) }}
-                <p id="codeUniqueVerifText"></p>
-            </div>
-            <div class="access-container">
-                {{ form_label(formUser.visible, 'Souhaitez-vous que votre profil soit visible ?') }}
-                {{ form_widget(formUser.visible, {'id': 'visible'}) }}
-            </div>
-            {{ form_widget(formUser.creation, {'label': "Créer votre profil !", 'attr': {'class': 'basic-form-submit'}}) }}
-        </fieldset>
-        {{ form_rest(formUser) }}
-        {{ form_end(formUser) }}
-    </main>
+        <div class="overflow-auto" style="max-height: 500px;">
+            {{ form_start(formUser, {'attr': {'class': 'basic-form'}}) }}
+            <fieldset class="border p-4 rounded">
+                <legend class="w-auto px-2">Inscription</legend>
 
+                <div class="mb-3">
+                    {{ form_label(formUser.login, 'Votre login', {'label_attr': {'class': 'form-label'}}) }}
+                    <p class="help-input-form">Maximum 50 caractères</p>
+                    {{ form_widget(formUser.login, {'id': 'login', 'attr': {'class': 'form-control', 'placeholder': "Entrez votre login."}}) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(formUser.email, 'Votre adresse email', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(formUser.email, {'id': 'email', 'attr': {'class': 'form-control', 'placeholder': 'Entrez votre adresse email'}}) }}
+                    <p id="emailVerifText"></p>
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(formUser.plainPassword, 'Votre mot de passe', {'label_attr': {'class': 'form-label'}}) }}
+                    <p class="help-input-form">Entre 8 et 50 caractères, au moins une minuscule, une majuscule et un nombre</p>
+                    {{ form_widget(formUser.plainPassword, {'id': 'password', 'attr': {'class': 'form-control', 'placeholder': 'Entrez votre mot de passe'}}) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(formUser.codeUnique, 'Rentrez un code unique qui vous servira à vous identifier, ou laissez le champ vide pour le générer aléatoirement', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(formUser.codeUnique, {'id': 'codeUnique', 'attr': {'class': 'form-control'}}) }}
+                    <p id="codeUniqueVerifText"></p>
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-check">
+                        {{ form_widget(formUser.visible, {'id': 'visible', 'attr': {'class': 'form-check-input'}}) }}
+                        {{ form_label(formUser.visible, 'Souhaitez-vous que votre profil soit visible ?', {'label_attr': {'class': 'form-check-label'}}) }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    {{ form_widget(formUser.creation, {'label': "Créer votre profil !", 'attr': {'class': 'btn btn-primary'}}) }}
+                </div>
+            </fieldset>
+            {{ form_rest(formUser) }}
+            {{ form_end(formUser) }}
+        </div>
+    </main>
+</div>
 {% endblock %}
 
 {% block javascripts %}
