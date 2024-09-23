@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\Utilisateur;
+use App\Service\UtilisateurManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -17,10 +18,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class AjoutUtilisateurCommand extends Command
 {
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly UtilisateurManagerInterface $utilisateurManager)
     {
         parent::__construct();
-        $this->entityManager = $entityManager;
     }
 
     protected function configure(): void
@@ -46,12 +46,8 @@ class AjoutUtilisateurCommand extends Command
         $user = new Utilisateur();
         $user->setLogin($login);
         $user->setEmail($email);
-        $user->setPassword($password);
         $user->setVisible($visible);
-        $user->setCodeUnique(uniqid());
-        $user->setDateConnexion(new \DateTime());
-        $user->setProfil(false);
-        $user->setDateEdition(new \DateTime());
+        $this->utilisateurManager->processNewUtilisateur($user, $password);
         if ($admin) {
             $user->setRoles(array_merge($user->getRoles(), ['ROLE_ADMIN']));
         }
