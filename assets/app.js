@@ -69,3 +69,12 @@ window.queryAJAX = () => {
             .catch(error => console.error('Error:', error));
     }
 }
+
+function flashes(){
+    const flashMessages = document.querySelectorAll("#flash-message");
+    flashMessages.forEach(function(flashMessage) {
+        setTimeout(function() {
+            flashMessage.classList.remove('show');
+            flashMessage.classList.add('fade');}, 4000);
+    });
+}
