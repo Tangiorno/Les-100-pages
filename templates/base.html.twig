@@ -41,14 +41,13 @@
 </header>
 <div id="flashes-container">
     {% for success in app.flashes("success") %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="flash-message">
             {{ success }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endfor %}
 
     {% for error in app.flashes("error") %}
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="flash-message">
             {{ error }}
         </div>
     {% endfor %}
@@ -57,6 +56,17 @@
 {% block page_content %}
 {% endblock %}
 {% block javascripts %}
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const flashMessages = document.querySelectorAll("#flash-message");
+        flashMessages.forEach(function(flashMessage) {
+            setTimeout(function() {
+                flashMessage.classList.remove('show');
+                flashMessage.classList.add('fade');
+            }, 4000);
+        });
+    });
+</script>
 {% endblock %}
 <footer class="bg-dark text-white pt-4">
   <div class="container">

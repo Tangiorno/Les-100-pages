@@ -109,6 +109,7 @@ html, body {
 
 #flashes-container {
     margin: 20px 0;
+    position: fixed;
 }
 
 .alert {
