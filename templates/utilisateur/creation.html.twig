@@ -16,6 +16,7 @@
             <div class="access-container">
                 {{ form_label(formUser.email, 'Votre adresse email') }}
                 {{ form_widget(formUser.email, {'id': 'email', 'attr': {'placeholder': 'Entrez votre adresse email'}}) }}
+                <p id="emailVerifText"></p>
             </div>
             <div class="access-container">
                 {{ form_label(formUser.plainPassword, 'Votre mot de passe') }}
@@ -26,23 +27,22 @@
             <div class="access-container">
                 {{ form_label(formUser.codeUnique, 'Rentrez un code unique qui vous servira à vous identifier, ou laissez le champ vide pour le générer aléatoirement') }}
                 {{ form_widget(formUser.codeUnique, {'id': 'codeUnique'}) }}
+                <p id="codeUniqueVerifText"></p>
             </div>
             <div class="access-container">
                 {{ form_label(formUser.visible, 'Souhaitez-vous que votre profil soit visible ?') }}
                 {{ form_widget(formUser.visible, {'id': 'visible'}) }}
             </div>
-            {# <div class="access-container">
-                {{ form_label(formUser.numeroTelephone, 'Entrez votre numéro de téléphone') }}
-                {{ form_widget(formUser.numeroTelephone, {'id': 'numeroTelephone'}) }}
-            </div>
-            <div class="access-container">
-                {{ form_label(formUser.pays, 'Entrez votre pays de résidence') }}
-                {{ form_widget(formUser.pays, {'id': 'pays'}) }}
-            </div>
-            #}{{ form_widget(formUser.creation, {'label': "Créer votre profil !", 'attr': {'class': 'basic-form-submit'}}) }}
+            {{ form_widget(formUser.creation, {'label': "Créer votre profil !", 'attr': {'class': 'basic-form-submit'}}) }}
         </fieldset>
         {{ form_rest(formUser) }}
         {{ form_end(formUser) }}
     </main>
 
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => queryAJAX())
+    </script>
 {% endblock %}
