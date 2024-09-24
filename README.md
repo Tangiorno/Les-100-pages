@@ -22,12 +22,15 @@ https://gitlabinfo.iutmontp.univ-montp2.fr/guilhote/projet-annuaire
 
 ### La commande de création d'utilisateurs
 
-- La commande basique : php bin/console app:ajout-utilisateur --login=$valeur --mail=$valeur --password=$valeur --visible=$choix --admin=$choix --codeUnique=$valeur
+- La commande basique : \
+\
+`php bin/console app:ajout-utilisateur --login=$valeur --email=$valeur --password=$valeur --visible=$choix --admin=$choix --codeUnique=$valeur`\
+\
 Il suffit de remplacer les différentes données (notées $valeur) par les valeurs souhaitées 
 Pour --visible et --admin il faut remplacer $choix par true si l'utilisateur a un profil visible et a le rôle admin, dans le cas contraire il faut mettre no (le choix par défaut est no pour tout autre valeur que yes ou y)
 
 - La commande intéractive : php bin/console app:ajout-utilisateur
-Les différentes données seront demandées dans l'ordre suivant : login - mail - password - visible - admin - code unique 
+Les différentes données seront demandées dans l'ordre suivant : login - email - password - visible - admin - code unique
 
 - La commande hybride : On peut rentrer les paramètres de notre choix, ceux restant seront demandés intéractivement 
 
