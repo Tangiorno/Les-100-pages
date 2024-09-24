@@ -21,7 +21,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 class UtilisateurController extends AbstractController
 {
     public function __construct(private readonly FlashMessageHelperInterface $flashMessageHelper,
-                                private readonly UtilisateurRepository       $utilisateurRepo)
+                                private readonly UtilisateurRepository $utilisateurRepo,
+                                private readonly UtilisateurManagerInterface $utilisateurManager,)
     {
     }
 
@@ -162,8 +163,6 @@ class UtilisateurController extends AbstractController
     #[Route('/check-field-not-taken/{key}/{value}', name: 'check_field_not_taken', options: ["expose" => true], methods: ['HEAD'])]
     public function checkFieldNotTaken(string $key, string $value): JsonResponse
     {
-        $user = $this->utilisateurRepo->findOneBy([$key => $value]);
-
-        return new JsonResponse("", ($user ? Response::HTTP_NO_CONTENT : Response::HTTP_NOT_FOUND));
+        return new JsonResponse("", ($this->utilisateurManager->checkFieldNotTakenNormal($key, $value) ? Response::HTTP_NO_CONTENT : Response::HTTP_NOT_FOUND));
     }
 }

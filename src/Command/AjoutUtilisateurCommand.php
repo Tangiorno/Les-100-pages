@@ -31,7 +31,7 @@ class AjoutUtilisateurCommand extends Command
             ->addArgument('password', InputArgument::REQUIRED, "Mot de passe de l'utilisateur")
             ->addOption('visible', null, InputOption::VALUE_NONE, "L'utilisateur est-il visible ?")
             ->addOption('admin', null, InputOption::VALUE_NONE, "L'utilisateur est-il admin ?")
-            ;//->$this->addOption('codeUnique', null, InputOption::VALUE_REQUIRED, "Code unique de l'utilisateur");
+            ->addOption('codeUnique', null, InputOption::VALUE_REQUIRED, "Code unique de l'utilisateur");
     }
 
 
@@ -42,14 +42,26 @@ class AjoutUtilisateurCommand extends Command
         $password = $input->getArgument('password');
         $visible = $input->getOption('visible');
         $admin = $input->getOption('admin');
+        $codeUnique = $input->getOption('codeUnique');
 
         $user = new Utilisateur();
         $user->setLogin($login);
+        if ($this->utilisateurManager->checkFieldNotTakenNormal("email", $email)) {
+            $output->writeln('Adresse mail déjà utilisée');
+            return Command::FAILURE;
+        }
         $user->setEmail($email);
         $user->setVisible($visible);
         $this->utilisateurManager->processNewUtilisateur($user, $password);
         if ($admin) {
             $user->setRoles(array_merge($user->getRoles(), ['ROLE_ADMIN']));
+        }
+        if ($codeUnique) {
+            if ($this->utilisateurManager->checkFieldNotTakenNormal("codeUnique", $codeUnique)) {
+                $output->writeln('Code unique déjà utilisé');
+                return Command::FAILURE;
+            }
+            $user->setCodeUnique($codeUnique);
         }
 
         $this->entityManager->persist($user);

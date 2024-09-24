@@ -3,7 +3,9 @@
 namespace App\Service;
 
 use App\Entity\Utilisateur;
+use App\Repository\UtilisateurRepository;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UtilisateurManager implements UtilisateurManagerInterface
@@ -11,6 +13,7 @@ class UtilisateurManager implements UtilisateurManagerInterface
 
     public function __construct(
         private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private readonly UtilisateurRepository $utilisateurRepository
     )
     {
     }
@@ -47,6 +50,11 @@ class UtilisateurManager implements UtilisateurManagerInterface
         $utilisateur->setDateEdition(new DateTime());
         $utilisateur->setDateConnexion(new DateTime());
         $utilisateur->setRoles([]);
+    }
+
+    public function checkFieldNotTakenNormal(string $key, string $value)
+    {
+        return !($this->utilisateurRepository->findOneBy([$key => $value]) === null);
     }
 
 }
