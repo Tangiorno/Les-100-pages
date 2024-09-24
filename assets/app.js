@@ -34,7 +34,7 @@ window.queryAJAX = () => {
         clearTimeout(timeout);
         timeout = setTimeout(function () {
             checkEmail(emailInput.value);
-        }, 100);
+        }, 50);
     });
     codeUniqueInput.addEventListener('input', function () {
         clearTimeout(timeout);
@@ -51,6 +51,8 @@ window.queryAJAX = () => {
                     emailVerifText.innerHTML = 'Cet e-mail est déjà pris !'
                 } else if (code === 404) {
                     emailVerifText.innerHTML = "E-mail disponible !"
+                } else if (code === 422) {
+                    emailVerifText.innerHTML = "E-mail ne respecte pas le format !"
                 }
             })
             .catch(error => console.error('Error:', error));
@@ -64,8 +66,19 @@ window.queryAJAX = () => {
                     codeUniqueVerifText.innerHTML = 'Ce code unique est déjà pris !'
                 } else if (code === 404) {
                     codeUniqueVerifText.innerHTML = "Code unique disponible !"
+                } else if (code === 422) {
+                    codeUniqueVerifText.innerHTML = "Code unique ne respecte pas le format (alphanumérique) !"
                 }
             })
             .catch(error => console.error('Error:', error));
     }
+}
+
+function flashes(){
+    const flashMessages = document.querySelectorAll("#flash-message");
+    flashMessages.forEach(function(flashMessage) {
+        setTimeout(function() {
+            flashMessage.classList.remove('show');
+            flashMessage.classList.add('fade');}, 4000);
+    });
 }

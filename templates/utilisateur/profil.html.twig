@@ -12,6 +12,8 @@
     <div class="container mt-4">
         <h2 class="text-center mb-4">{{ user.login }}</h2>
         <ul class="list-group mb-4">
+            <li class="list-group-item">Prénom: <strong>{{ user.prenom }}</strong></li>
+            <li class="list-group-item">Nom: <strong>{{ user.nom }}</strong></li>
             <li class="list-group-item">Adresse mail: <strong>{{ user.email }}</strong></li>
             <li class="list-group-item">Numéro de téléphone: <strong>{{ user.numeroTelephone }}</strong></li>
             <li class="list-group-item">Pays: <strong>{{ user.pays }}</strong></li>
@@ -28,7 +30,7 @@
 
         {% if isSelfProfile or (is_granted('ROLE_ADMIN') and not user.hasRole('ROLE_ADMIN')) %}
             <button id="delete-button" class="btn btn-danger" onclick="handleDeletePopup()">Supprimer ce profil</button>
-            <form id="delete-form" action="{{ path('suppression') }}" method="POST">
+            <form id="delete-form" action="{{ path('suppression', { 'code': user.codeUnique }) }}" method="POST">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete-account') }}">
             </form>
             <div id="confirmation-modal" style="display:none;" class="modal">

@@ -28,10 +28,8 @@
                     {% endif %}
                     <li class="nav-item"><a href="{{ path("liste") }}">Accueil</a></li>
                     {% if is_granted("ROLE_USER") %}
-                        <li class="nav-item">
-                            <form method="get" action="{{ path("detailProfil", { 'code': app.user.userIdentifier }) }}">
-                                <button id="btn-deconnexion" class="nav-link btn btn-link">Mon profil</button>
-                            </form>
+                        <li class="nav-item"><a href="{{ path("detailProfil", { 'code': app.user.userIdentifier }) }}">Mon
+                                profil</a>
                         </li>
                         <li class="nav-item">
                             <form method="post" action="{{ path("_logout_main") }}">
@@ -69,34 +67,15 @@
 {% endblock %}
 {% block javascripts %}
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const flashMessages = document.querySelectorAll("#flash-message");
-            flashMessages.forEach(function (flashMessage) {
-                setTimeout(function () {
-                    flashMessage.classList.remove('show');
-                    flashMessage.classList.add('fade');
-                }, 4000);
-            });
-        });
+        document.addEventListener("DOMContentLoaded", () => flashes());
     </script>
     {{ encore_entry_script_tags('app') }}
 {% endblock %}
-<footer class="bg-dark text-white pt-4">
+<footer class="bg-dark text-white pt-4 text-center">
     <div class="container">
-        <div class="liste-noms" style="height: 100px;">
-            <h5 id="titreNoms">Qui sommes-nous ?</h5>
-            <ul class="list-unstyled">
-                <li>Enzo Guilhot</li>
-                <li>Raphaël Izoret</li>
-                <li>Noé Fuertes-Torredemé</li>
-            </ul>
-        </div>
-
-        <div class="row mt-4">
-            <div class="col text-center">
-                <p class="mb-0">Septembre 2024 - Les 100 Pages.</p>
-            </div>
-        </div>
+        <h5 id="titreNoms">Qui sommes-nous ?</h5>
+        <p id="listeNoms">Enzo Guilhot - Raphaël Izoret - Noé Fuertes-Torredemé</p>
+        <p class="mb-0">Septembre 2024 - Les 100 Pages.</p>
     </div>
 </footer>
 

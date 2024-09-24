@@ -6,6 +6,7 @@ use App\Entity\Utilisateur;
 use App\Form\UtilisateurCreaType;
 use App\Form\UtilisateurModifType;
 use App\Repository\UtilisateurRepository;
+use App\Security\CustomRegexes;
 use App\Service\FlashMessageHelperInterface;
 use App\Service\UtilisateurManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validation;
 
 class UtilisateurController extends AbstractController
 {
@@ -95,6 +97,9 @@ class UtilisateurController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form['codeUnique']->getData() == null) {
+                $user->setCodeUnique(uniqid());
+            }
             if ($form['password']->getData() == null) {
                 $utilisateurManager->processModifUtilisateur($user, $hashedPassword);
             } else {
@@ -102,35 +107,37 @@ class UtilisateurController extends AbstractController
             }
             $manager->flush();
             $this->addFlash('success', 'Profil modifié avec succès');
-            return $this->redirectToRoute('liste');
+            return $this->redirectToRoute('detailProfil', ['code' => $user->getCodeUnique()]);
         }
 
         $this->flashMessageHelper->addFormErrorsAsFlash($form);
-
 
         return $this->render('utilisateur/edition.html.twig', ["formUser" => $form, 'user' => $user]);
 
     }
 
-    #[Route('/suppression', name: 'suppression', methods: ['POST'])]
-    public function supprimer(Request $request, EntityManagerInterface $manager, Security $security): Response
+    #[Route('/suppression/{code}', name: 'suppression', methods: ['POST'])]
+    public function supprimer(string $code, Request $request, EntityManagerInterface $manager, Security $security): Response
     {
-        if (!$this->isGranted('ROLE_USER')) {
+        $currentUser = $this->getUser();
+
+        if (!$this->isGranted('ROLE_USER') || !($currentUser->getUserIdentifier() == $code || $this->isGranted('ROLE_ADMIN'))) {
             return $this->redirectToRoute('liste');
         }
 
-        $user = $this->getUser();
-        $user = $manager->getRepository(Utilisateur::class)->findOneBy(["codeUnique" => $user->getUserIdentifier()]);
+        $userToDelete = $manager->getRepository(Utilisateur::class)->findOneBy(["codeUnique" => $code]);
 
         if (!$this->isCsrfTokenValid('delete-account', $request->request->get('_token'))) {
             $this->addFlash('error', 'Invalid CSRF token');
-            return $this->redirectToRoute('detailProfil', ['code' => $user->getUserIdentifier()]);
+            return $this->redirectToRoute('detailProfil', ['code' => $code]);
         }
 
-        $manager->remove($user);
+        $logoutUser = $currentUser->getUserIdentifier() == $userToDelete->getUserIdentifier();
+
+        $manager->remove($userToDelete);
         $manager->flush();
 
-        $security->logout(false);
+        if ($logoutUser) $security->logout(false);
 
         $this->addFlash('success', 'Profil supprimé avec succès');
 
@@ -163,6 +170,21 @@ class UtilisateurController extends AbstractController
     #[Route('/check-field-not-taken/{key}/{value}', name: 'check_field_not_taken', options: ["expose" => true], methods: ['HEAD'])]
     public function checkFieldNotTaken(string $key, string $value): JsonResponse
     {
-        return new JsonResponse("", ($this->utilisateurManager->checkFieldNotTakenNormal($key, $value) ? Response::HTTP_NO_CONTENT : Response::HTTP_NOT_FOUND));
+        //return new JsonResponse("", ($this->utilisateurManager->checkFieldNotTakenNormal($key, $value) ? Response::HTTP_NO_CONTENT : Response::HTTP_NOT_FOUND));
+
+        $user = $this->utilisateurRepo->findOneBy([$key => $value]);
+
+        $regexes = CustomRegexes::getRegexes();
+        if (array_key_exists($key, $regexes)) {
+            $regex = $regexes[$key];
+            $validator = Validation::createValidator();
+            $violations = $validator->validate($value, $regex);
+            if (count($violations) > 0) {
+                return new JsonResponse("", Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+        }
+
+        return new JsonResponse("", ($user ? Response::HTTP_NO_CONTENT : Response::HTTP_NOT_FOUND));
+
     }
 }

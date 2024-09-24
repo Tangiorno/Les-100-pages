@@ -3,9 +3,9 @@
 {% block title_suffix %}Liste{% endblock %}
 
     {% block page_content %}
-
     <div class="container mt-4">
     <h2 class="text-center mb-4">Annuaire</h2>
+    <div class="overflow-auto" style="max-height: 500px;">
     <ul class="list-group">
         {% for profil in utilisateurs %}
             <li class="list-group-item">
@@ -15,6 +15,7 @@
             </li>
         {% endfor %}
     </ul>
+    </div>
 </div>
 
 {% endblock %}

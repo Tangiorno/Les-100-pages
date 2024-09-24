@@ -3,6 +3,7 @@
 {% block title_suffix %} Éditez votre profil {% endblock %}
 
 {% block page_content %}
+    <div class="overflow-auto" style="max-height: 500px;">
     <div class="container mt-5">
         <main>
             <div class="overflow-auto" style="max-height: 500px;">
@@ -29,11 +30,13 @@
                     <div class="mb-3">
                         {{ form_label(formUser.email, 'Modifiez votre adresse email', {'label_attr': {'class': 'form-label'}}) }}
                         {{ form_widget(formUser.email, {'id': 'email', 'required': false, 'attr': {'value': user.email, 'class': 'form-control'}}) }}
+                        <p id="emailVerifText"></p>
                     </div>
 
                     <div class="mb-3">
                         {{ form_label(formUser.codeUnique, 'Modifiez votre code unique', {'label_attr': {'class': 'form-label'}}) }}
                         {{ form_widget(formUser.codeUnique, {'id': 'codeUnique', 'required': false, 'attr': {'value': user.codeUnique, 'class': 'form-control'}}) }}
+                        <p id="codeUniqueVerifText"></p>
                     </div>
                     <div class="mb-3">
                         {{ form_label(formUser.password, 'Modifiez votre mot de passe', {'label_attr': {'class': 'form-label'}}) }}
@@ -45,7 +48,7 @@
                     <div class="mb-3">
                         <div class="form-check">
                             {{ form_widget(formUser.visible, {'id': 'visible', 'attr': {'class': 'form-check-input'}}) }}
-                            {{ form_label(formUser.visible, 'Modifiez la visibilité de votre profil', {'label_attr': {'class': 'form-check-label'}}) }}
+                            {{ form_label(formUser.visible, 'Rendre le profil visible ?', {'label_attr': {'class': 'form-check-label'}}) }}
                         </div>
                     </div>
 
@@ -68,4 +71,11 @@
             </div>
         </main>
     </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => queryAJAX())
+    </script>
 {% endblock %}

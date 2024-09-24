@@ -32,6 +32,12 @@ html, body {
   animation: gradientMove 8s ease infinite;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 @keyframes gradientMove {
   0% {
     background-position: 0 50%;
@@ -76,20 +82,28 @@ html, body {
     text-decoration: underline;
   }
 
-  footer{
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      justify-content: center;
-  }
+  footer {
+    margin-top: auto;
+    width: 100%;
+    background-color: #343a40; /* Ensure it's the same color as bg-dark in Bootstrap */
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+}
 
-  .liste-noms{
-      margin-left: 42%;
-  }
+  #titreNoms, #listeNoms {
+    margin: 0;
+}
 
-  #titreNoms{
-      margin-left: -3%;
-  }
+#titreNoms {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+#listeNoms {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
 
   main{
       margin-top: 5%;

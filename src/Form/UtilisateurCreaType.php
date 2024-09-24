@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Utilisateur;
+use App\Security\CustomRegexes;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -26,8 +27,10 @@ class UtilisateurCreaType extends AbstractType
             ->add('plainPassword', PasswordType::class, ["mapped" => false, "constraints" =>
                 [new NotBlank(), new NotNull(),
                     new Length(["min" => 8, "max" => 50, "minMessage" => "Le mot de passe doit posséder au minimum 8 caractères", "maxMessage" => "Le mot de passe doit posséder au maximum 50 caractères"]),
-                    new Regex("#^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,30}$#", "Le mot de passe doit contenir au minimum une majuscule, une minuscule et un chiffre")]])
-            ->add('codeUnique', TextType::class, ["required" => false])
+                    CustomRegexes::getRegexes()['password']]])
+            ->add('codeUnique', TextType::class, ["required" => false, "constraints" =>[
+                CustomRegexes::getRegexes()['password']
+            ]])
             ->add('visible', CheckboxType::class, ['required' => false, 'data' => true]) //data = true check la box par défaut
             ->add('creation', SubmitType::class);
     }
