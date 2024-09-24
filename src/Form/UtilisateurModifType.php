@@ -23,9 +23,11 @@ class UtilisateurModifType extends AbstractType
     {
         $builder
             ->add('login', TextType::class, ["required" => false])
-            ->add('prenom', TextType::class, ["required" => false])
             ->add('nom', TextType::class, ["required" => false])
+            ->add('prenom', TextType::class, ["required" => false])
             ->add('email', EmailType::class, ["required" => false])
+            ->add('activite', TextType::class, ["required" => false])
+            ->add('adressePostale', TextType::class, ["required" => false])
             ->add('codeUnique', TextType::class, ["required" => false, "constraints"=>[
                 CustomRegexes::getRegexes()['codeUnique']
             ]])

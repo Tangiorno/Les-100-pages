@@ -34,6 +34,11 @@
                     </div>
 
                     <div class="mb-3">
+                        {{ form_label(formUser.activite, 'Modifiez votre activité principale', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(formUser.activite, {'id': 'activite', 'required': false, 'attr': {'value': user.activite, 'class': 'form-control'}}) }}
+                    </div>
+
+                    <div class="mb-3">
                         {{ form_label(formUser.codeUnique, 'Modifiez votre code unique', {'label_attr': {'class': 'form-label'}}) }}
                         {{ form_widget(formUser.codeUnique, {'id': 'codeUnique', 'required': false, 'attr': {'value': user.codeUnique, 'class': 'form-control'}}) }}
                         <p id="codeUniqueVerifText"></p>
@@ -60,6 +65,11 @@
                     <div class="mb-3">
                         {{ form_label(formUser.pays, 'Modifiez votre pays de résidence', {'label_attr': {'class': 'form-label'}}) }}
                         {{ form_widget(formUser.pays, {'id': 'pays', 'required': false, 'attr': {'value': user.pays, 'class': 'form-control'}}) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(formUser.adressePostale, 'Modifiez votre adresse postale', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(formUser.adressePostale, {'id': 'adressePostale', 'required': false, 'attr': {'value': user.adressePostale, 'class': 'form-control'}}) }}
                     </div>
 
                     <div class="mb-3">

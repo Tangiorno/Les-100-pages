@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[UniqueEntity("codeUnique")]
@@ -21,6 +22,8 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotNull]
+    #[Assert\NotBlank]
     private ?string $login = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -30,6 +33,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $nom = null;
 
     #[ORM\Column(length: 100, unique: true)]
+    #[Assert\Email(message: 'Adresse mail invalide')]
+    #[Assert\NotNull]
+    #[Assert\NotBlank]
     private ?string $email = null;
 
     #[ORM\Column(length: 255, unique: true)]
@@ -58,6 +64,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column(type: 'json')]
     private ?array $roles = [];
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $activite = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $adressePostale = null;
 
     public function getId(): ?int
     {
@@ -230,6 +242,30 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNom(?string $nom): static
     {
         $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getActivite(): ?string
+    {
+        return $this->activite;
+    }
+
+    public function setActivite(?string $activite): static
+    {
+        $this->activite = $activite;
+
+        return $this;
+    }
+
+    public function getAdressePostale(): ?string
+    {
+        return $this->adressePostale;
+    }
+
+    public function setAdressePostale(?string $adressePostale): static
+    {
+        $this->adressePostale = $adressePostale;
 
         return $this;
     }
