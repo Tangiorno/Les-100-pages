@@ -4,16 +4,18 @@ namespace App\Service;
 
 use App\Entity\Utilisateur;
 use App\Repository\UtilisateurRepository;
+use App\Security\CustomRegexes;
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Validator\Validation;
 
 class UtilisateurManager implements UtilisateurManagerInterface
 {
 
     public function __construct(
         private readonly UserPasswordHasherInterface $userPasswordHasher,
-        private readonly UtilisateurRepository $utilisateurRepository
+        private readonly UtilisateurRepository       $utilisateurRepository
     )
     {
     }
@@ -51,9 +53,21 @@ class UtilisateurManager implements UtilisateurManagerInterface
         $utilisateur->setRoles([]);
     }
 
-    public function checkFieldNotTakenNormal(string $key, string $value)
+    // Retourne un status code HTTP
+    public function checkFieldValidity(string $key, string $value): int
     {
-        return !($this->utilisateurRepository->findOneBy([$key => $value]) === null);
-    }
+        $user = $this->utilisateurRepository->findOneBy([$key => $value]);
 
+        $regexes = CustomRegexes::getRegexes();
+        if (array_key_exists($key, $regexes)) {
+            $regex = $regexes[$key];
+            $validator = Validation::createValidator();
+            $violations = $validator->validate($value, $regex);
+            if (count($violations) > 0) {
+                return Response::HTTP_UNPROCESSABLE_ENTITY;
+            }
+        }
+
+        return $user ? Response::HTTP_NO_CONTENT : Response::HTTP_NOT_FOUND;
+    }
 }

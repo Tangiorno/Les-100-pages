@@ -170,21 +170,6 @@ class UtilisateurController extends AbstractController
     #[Route('/check-field-not-taken/{key}/{value}', name: 'check_field_not_taken', options: ["expose" => true], methods: ['HEAD'])]
     public function checkFieldNotTaken(string $key, string $value): JsonResponse
     {
-        //return new JsonResponse("", ($this->utilisateurManager->checkFieldNotTakenNormal($key, $value) ? Response::HTTP_NO_CONTENT : Response::HTTP_NOT_FOUND));
-
-        $user = $this->utilisateurRepo->findOneBy([$key => $value]);
-
-        $regexes = CustomRegexes::getRegexes();
-        if (array_key_exists($key, $regexes)) {
-            $regex = $regexes[$key];
-            $validator = Validation::createValidator();
-            $violations = $validator->validate($value, $regex);
-            if (count($violations) > 0) {
-                return new JsonResponse("", Response::HTTP_UNPROCESSABLE_ENTITY);
-            }
-        }
-
-        return new JsonResponse("", ($user ? Response::HTTP_NO_CONTENT : Response::HTTP_NOT_FOUND));
-
+        return new JsonResponse("", $this->utilisateurManager->checkFieldValidity($key, $value));
     }
 }

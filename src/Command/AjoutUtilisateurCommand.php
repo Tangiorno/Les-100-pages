@@ -46,8 +46,8 @@ class AjoutUtilisateurCommand extends Command
 
         $user = new Utilisateur();
         $user->setLogin($login);
-        if ($this->utilisateurManager->checkFieldNotTakenNormal("email", $email)) {
-            $output->writeln('Adresse mail déjà utilisée');
+        if ($this->utilisateurManager->checkFieldValidity("email", $email) != 404) {
+            $output->writeln('Adresse mail invalide (déjà utilisée, ou ne respecte pas le format des e-mails)');
             return Command::FAILURE;
         }
         $user->setEmail($email);
@@ -57,8 +57,8 @@ class AjoutUtilisateurCommand extends Command
             $user->setRoles(array_merge($user->getRoles(), ['ROLE_ADMIN']));
         }
         if ($codeUnique) {
-            if ($this->utilisateurManager->checkFieldNotTakenNormal("codeUnique", $codeUnique)) {
-                $output->writeln('Code unique déjà utilisé');
+            if ($this->utilisateurManager->checkFieldValidity("codeUnique", $codeUnique) != 404) {
+                $output->writeln('Code unique invalide (déjà utilisé, ou ne respecte pas le format alphanumérique)');
                 return Command::FAILURE;
             }
             $user->setCodeUnique($codeUnique);
