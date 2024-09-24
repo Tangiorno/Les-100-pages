@@ -1,4 +1,4 @@
-# Projet-Annuaire
+# Projet Web - Les 100 pages (annuaire)
 
 
 
@@ -12,6 +12,6 @@ https://gitlabinfo.iutmontp.univ-montp2.fr/guilhote/projet-annuaire
 
 ## Investissement
 
-- Raphaël :
-- Noé :
-- Enzo :
+- Raphaël : gros carry
+- Noé : mongo
+- Enzo : il se lève à 11 heures

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title_suffix %}Connexion{% endblock %}
+
+{% block page_content %}
+<div class="container mt-5">
+    <main>
+        <form action="{{ path('connexion') }}" method="post" class="basic-form">
+            <fieldset class="border p-4 rounded">
+                <legend class="w-auto px-2">Connexion</legend>
+                <div class="mb-3">
+                    <label for="login" class="form-label">E-mail ou code unique :</label>
+                    <input id="login" type="text" name="_username" value="{{ lastUsername }}" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Mot de passe :</label>
+                    <input id="password" type="password" name="_password" class="form-control" required />
+                </div>
+                <button type="submit" class="btn btn-primary">Se connecter</button>
+            </fieldset>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        </form>
+    </main>
+</div>
+{% endblock %}
+

@@ -3,3 +3,12 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+_security_logout:
+    resource: security.route_loader.logout
+    type: service
+    methods: ['POST']
+
+liste:
+    path: /
+    controller: App\Controller\UtilisateurController::liste
