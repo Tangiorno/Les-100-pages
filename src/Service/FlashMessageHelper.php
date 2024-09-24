@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class FlashMessageHelper implements FlashMessageHelperInterface
 {
 
-    public function __construct(private RequestStack $requestStack)
+    public function __construct(private readonly RequestStack $requestStack)
     {
     }
 
@@ -20,5 +20,17 @@ class FlashMessageHelper implements FlashMessageHelperInterface
             $flashBag = $this->requestStack->getSession()->getFlashBag();
             $flashBag->add('error', $errorMsg);
         }
+    }
+
+    public function addSuccess(string $message): void
+    {
+        $flashBag = $this->requestStack->getSession()->getFlashBag();
+        $flashBag->add('success', $message);
+    }
+
+    public function addFailure(string $message): void
+    {
+        $flashBag = $this->requestStack->getSession()->getFlashBag();
+        $flashBag->add('error', $message);
     }
 }
