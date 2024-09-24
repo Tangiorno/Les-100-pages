@@ -35,8 +35,8 @@ class AjoutUtilisateurCommand extends Command
             ->addArgument("login", InputArgument::OPTIONAL, "Login de l'utilisateur")
             ->addArgument("email", InputArgument::OPTIONAL, "Adresse email de l'utilisateur")
             ->addArgument("password", InputArgument::OPTIONAL, "Mot de passe de l'utilisateur")
-            ->addOption("visible", null, InputOption::VALUE_REQUIRED, "L'utilisateur est-il visible ? (yes/no)")
-            ->addOption("admin", null, InputOption::VALUE_REQUIRED, "L'utilisateur est-il admin ? (yes/no)")
+            ->addOption("visible", null, InputOption::VALUE_REQUIRED, "L'utilisateur est-il visible ? (yes/no) [no]")
+            ->addOption("admin", null, InputOption::VALUE_REQUIRED, "L'utilisateur est-il admin ? (yes/no) [no]")
             ->addOption("codeUnique", null, InputOption::VALUE_OPTIONAL, "Code unique de l'utilisateur");
     }
 
@@ -50,18 +50,18 @@ class AjoutUtilisateurCommand extends Command
 
         $visible = $input->getOption("visible");
         if (!$visible) {
-            $visibleAnswer = $helper->ask($input, $output, new Question("L'utilisateur est-il visible ? (yes/no): ", "no"));
-            $visible = strtolower($visibleAnswer) === "yes";
+            $visibleAnswer = $helper->ask($input, $output, new Question("L'utilisateur est-il visible ? (yes/no) [no]: ", "no"));
+            $visible = in_array(strtolower($visibleAnswer), ["y", "yes"]);
         } else {
-            $visible = strtolower($visible) === "yes";
+            $visible = in_array(strtolower($visible), ["y", "yes"]);
         }
 
         $admin = $input->getOption("admin");
         if (!$admin) {
-            $adminAnswer = $helper->ask($input, $output, new Question("L'utilisateur est-il admin ? (yes/no): ", "no"));
-            $admin = strtolower($adminAnswer) === "yes";
+            $adminAnswer = $helper->ask($input, $output, new Question("L'utilisateur est-il admin ? (yes/no) [no]: ", "no"));
+            $admin = in_array(strtolower($adminAnswer), ["y", "yes"]);
         } else {
-            $admin = strtolower($admin) === "yes";
+            $admin = in_array(strtolower($admin), ["y", "yes"]);
         }
 
         $codeUnique = $input->getOption("codeUnique");
@@ -85,7 +85,6 @@ class AjoutUtilisateurCommand extends Command
             $output->writeln($regex->message);
             return Command::FAILURE;
         }
-
         $this->utilisateurManager->processNewUtilisateur($user, $password);
 
         if ($admin) {
