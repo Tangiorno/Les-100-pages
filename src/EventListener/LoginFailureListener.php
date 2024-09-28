@@ -2,25 +2,23 @@
 
 namespace App\EventListener;
 
-use App\Entity\Utilisateur;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Http\Event\LoginFailureEvent;
-use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
+use App\Service\FlashMessageHelperInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 
-class LoginFailureListener
+class LoginFailureListener implements AuthenticationFailureHandlerInterface
 {
-
-    private $requestStack;
-
-    public function __construct(RequestStack $requestStack)
+    public function __construct(private readonly RouterInterface $router, private readonly FlashMessageHelperInterface $flashHelper)
     {
-        $this->requestStack = $requestStack;
     }
 
-    public function onLoginFailure(LoginFailureEvent $event): void
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): RedirectResponse
     {
-        $this->requestStack->getSession()->getFlashBag()->add('error', 'Identifiants invalides. Veuillez réessayer.');
-    }
+        $this->flashHelper->addFailure('La connexion a échoué. Veuillez vérifier vos identifiants.');
 
+        return new RedirectResponse($this->router->generate('connexion'));
+    }
 }

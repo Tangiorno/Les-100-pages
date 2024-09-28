@@ -8,7 +8,6 @@ use App\Service\UtilisateurManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,9 +31,9 @@ class AjoutUtilisateurCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument("login", InputArgument::OPTIONAL, "Login de l'utilisateur")
-            ->addArgument("email", InputArgument::OPTIONAL, "Adresse email de l'utilisateur")
-            ->addArgument("password", InputArgument::OPTIONAL, "Mot de passe de l'utilisateur")
+            ->addOption("login", null, InputOption::VALUE_OPTIONAL, "Login de l'utilisateur")
+            ->addOption("email", null, InputOption::VALUE_OPTIONAL, "Adresse email de l'utilisateur")
+            ->addOption("password", null, InputOption::VALUE_OPTIONAL, "Mot de passe de l'utilisateur")
             ->addOption("visible", null, InputOption::VALUE_REQUIRED, "L'utilisateur est-il visible ? (yes/no) [no]")
             ->addOption("admin", null, InputOption::VALUE_REQUIRED, "L'utilisateur est-il admin ? (yes/no) [no]")
             ->addOption("codeUnique", null, InputOption::VALUE_OPTIONAL, "Code unique de l'utilisateur");
@@ -44,30 +43,27 @@ class AjoutUtilisateurCommand extends Command
     {
         $helper = $this->getHelper("question");
 
-        $login = $input->getArgument("login") ?? $helper->ask($input, $output, new Question("Login de l'utilisateur: "));
-        $email = $input->getArgument("email") ?? $helper->ask($input, $output, new Question("Adresse email de l'utilisateur: "));
-        $password = $input->getArgument("password") ?? $helper->ask($input, $output, (new Question("Mot de passe de l'utilisateur: "))->setHidden(true));
+        $login = $input->getOption("login") ?? $helper->ask($input, $output, new Question("Login de l'utilisateur: "));
+        $email = $input->getOption("email") ?? $helper->ask($input, $output, new Question("Adresse email de l'utilisateur: "));
+        $password = $input->getOption("password") ?? $helper->ask($input, $output, (new Question("Mot de passe de l'utilisateur: "))->setHidden(true));
 
         $visible = $input->getOption("visible");
         if (!$visible) {
             $visibleAnswer = $helper->ask($input, $output, new Question("L'utilisateur est-il visible ? (yes/no) [no]: ", "no"));
-            $visible = in_array(strtolower($visibleAnswer), ["y", "yes"]);
+            $visible = in_array(strtolower($visibleAnswer), ["y", "yes"]) ? "yes" : "no";
         } else {
-            $visible = in_array(strtolower($visible), ["y", "yes"]);
+            $visible = in_array(strtolower($visible), ["y", "yes"]) ? "yes" : "no";
         }
 
         $admin = $input->getOption("admin");
         if (!$admin) {
             $adminAnswer = $helper->ask($input, $output, new Question("L'utilisateur est-il admin ? (yes/no) [no]: ", "no"));
-            $admin = in_array(strtolower($adminAnswer), ["y", "yes"]);
+            $admin = in_array(strtolower($adminAnswer), ["y", "yes"]) ? "yes" : "no";
         } else {
-            $admin = in_array(strtolower($admin), ["y", "yes"]);
+            $admin = in_array(strtolower($admin), ["y", "yes"]) ? "yes" : "no";
         }
 
-        $codeUnique = $input->getOption("codeUnique");
-        if (!$codeUnique) {
-            $codeUnique = $helper->ask($input, $output, new Question("Code unique de l'utilisateur (facultatif): ", ""));
-        }
+        $codeUnique = $input->getOption("codeUnique") ?? $helper->ask($input, $output, new Question("Code unique de l'utilisateur (facultatif): ", ""));
 
         if ($this->utilisateurManager->checkFieldValidity("email", $email) != 404) {
             $output->writeln("Adresse mail invalide (déjà utilisée, ou ne respecte pas le format des e-mails)");
@@ -77,7 +73,7 @@ class AjoutUtilisateurCommand extends Command
         $user = new Utilisateur();
         $user->setLogin($login);
         $user->setEmail($email);
-        $user->setVisible($visible);
+        $user->setVisible($visible === "yes");
 
         $regex = CustomRegexes::getRegexes()['password'];
         $validator = Validation::createValidator();
@@ -87,7 +83,7 @@ class AjoutUtilisateurCommand extends Command
         }
         $this->utilisateurManager->processNewUtilisateur($user, $password);
 
-        if ($admin) {
+        if ($admin === "yes") {
             $user->setRoles(array_merge($user->getRoles(), ["ROLE_ADMIN"]));
         }
 
