@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Les 100 pages - {% block title_suffix %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="{{ asset("styles/app.css") }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script defer src="{{ asset('app.js') }}"></script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5"></script>
+</head>
+<body>
+<header>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item"> Connecté en tant qu'admin  </li>
+                    {% endif %}
+                    <li class="nav-item"><a href="{{ path("liste") }}">Accueil</a></li>
+                    {% if is_granted("ROLE_USER") %}
+                        <li class="nav-item"><a href="{{ path("detailProfil", { 'code': app.user.userIdentifier }) }}">Mon
+                                profil</a>
+                        </li>
+                        <li class="nav-item">
+                            <form method="post" action="{{ path("_logout_main") }}">
+                                <button id="btn-deconnexion" class="nav-link btn btn-link">Se déconnecter</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a href="{{ path("creation") }}">Créer son profil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ path("connexion") }}">Se connecter</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
+<div id="flashes-container">
+    {% for success in app.flashes("success") %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="flash-message">
+            {{ success }}
+        </div>
+    {% endfor %}
+
+    {% for error in app.flashes("error") %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="flash-message">
+            {{ error }}
+        </div>
+    {% endfor %}
+</div>
+
+{% block page_content %}
+{% endblock %}
+{% block javascripts %}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => flashes());
+    </script>
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+<footer class="bg-dark text-white pt-4 text-center">
+    <div class="container">
+        <h5 id="titreNoms">Qui sommes-nous ?</h5>
+        <p id="listeNoms">
+            <a href="https://github.com/GuilhotEnzo" target="_blank" rel="noopener noreferrer">Enzo Guilhot</a> -
+            <a href="https://github.com/Notisma/" target="_blank" rel="noopener noreferrer">Raphaël Izoret</a> -
+            <a href="https://github.com/Tangiorno/" target="_blank" rel="noopener noreferrer">Noé Fuertes-Torredemé</a>
+        </p>
+        <p class="mb-0">Septembre 2024 - Les 100 Pages</p>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title_suffix %} Éditez votre profil {% endblock %}
+
+{% block page_content %}
+    <div class="container mt-5">
+        <main>
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-10 col-sm-12">
+                    <div class="overflow-auto" style="max-height: 500px;">
+                        {{ form_start(formUser, {'attr': {'class': 'basic-form'}}) }}
+                        <fieldset class="border p-4 rounded">
+                            <legend class="w-auto px-2">Édition</legend>
+
+                            <div class="mb-3">
+                                {{ form_label(formUser.login, 'Modifiez votre login', {'label_attr': {'class': 'form-label'}}) }}
+                                <p class="help-input-form">Maximum 50 caractères</p>
+                                {{ form_widget(formUser.login, {'id': 'login', 'required': false, 'attr': {'value': user.login, 'class': 'form-control'}}) }}
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form_label(formUser.prenom, 'Modifiez votre prénom', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_widget(formUser.prenom, {'id': 'prenom', 'required': false, 'attr': {'value': user.prenom, 'class': 'form-control'}}) }}
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form_label(formUser.nom, 'Modifiez votre nom', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_widget(formUser.nom, {'id': 'nom', 'required': false, 'attr': {'value': user.nom, 'class': 'form-control'}}) }}
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form_label(formUser.email, 'Modifiez votre adresse email', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_widget(formUser.email, {'id': 'email', 'required': false, 'attr': {'value': user.email, 'class': 'form-control'}}) }}
+                                <p id="emailVerifText"></p>
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form_label(formUser.activite, 'Modifiez votre activité principale', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_widget(formUser.activite, {'id': 'activite', 'required': false, 'attr': {'value': user.activite, 'class': 'form-control'}}) }}
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form_label(formUser.codeUnique, 'Modifiez votre code unique', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_widget(formUser.codeUnique, {'id': 'codeUnique', 'required': false, 'attr': {'value': user.codeUnique, 'class': 'form-control'}}) }}
+                                <p id="codeUniqueVerifText"></p>
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form_label(formUser.password, 'Modifiez votre mot de passe', {'label_attr': {'class': 'form-label'}}) }}
+                                <p class="help-input-form">Entre 8 et 50 caractères, au moins une minuscule, une majuscule et un chiffre</p>
+                                {{ form_widget(formUser.password, {'id': 'password', 'required': false, 'attr': {'placeholder': 'Entrez votre nouveau mot de passe (facultatif)', 'class': 'form-control'}}) }}
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    {{ form_widget(formUser.visible, {'id': 'visible', 'attr': {'class': 'form-check-input'}}) }}
+                                    {{ form_label(formUser.visible, 'Rendre le profil visible ?', {'label_attr': {'class': 'form-check-label'}}) }}
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form_label(formUser.numeroTelephone, 'Modifiez votre numéro de téléphone', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_widget(formUser.numeroTelephone, {'id': 'numeroTelephone', 'required': false, 'attr': {'value': user.numeroTelephone, 'class': 'form-control'}}) }}
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form_label(formUser.pays, 'Modifiez votre pays de résidence', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_widget(formUser.pays, {'id': 'pays', 'required': false, 'attr': {'value': user.pays, 'class': 'form-control'}}) }}
+                            </div>
+
+                            <div class="mb-3">
+                                {{ form_label(formUser.adressePostale, 'Modifiez votre adresse postale', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_widget(formUser.adressePostale, {'id': 'adressePostale', 'required': false, 'attr': {'value': user.adressePostale, 'class': 'form-control'}}) }}
+                            </div>
+
+                            <div class="mb-3 text-center">
+                                {{ form_widget(formUser.edition, {'label': "Modifier votre profil !", 'attr': {'class': 'btn btn-primary'}}) }}
+                            </div>
+                        </fieldset>
+                        {{ form_rest(formUser) }}
+                        {{ form_end(formUser) }}
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => queryAJAX())
+    </script>
+{% endblock %}
