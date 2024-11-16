@@ -1,1 +1,0 @@
-(self.webpackChunk=self.webpackChunk||[]).push([[524],{28:()=>{console.log("JavaScript is running!")}},n=>{var s;s=28,n(n.s=s)}]);
